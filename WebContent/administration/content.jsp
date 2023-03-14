@@ -171,7 +171,7 @@
                     style="color: #ffffff"
                     >Preview Sampling</a
                   > -->
-                  <a class="nav-link" href="user-maangement.jsp.jsp" style="color: #ffffff"
+                  <a class="nav-link" href="user-management.jsp.jsp" style="color: #ffffff"
                     >User Management</a
                   >
                 </nav>
@@ -208,7 +208,7 @@
                   >
                   <a
                     class="nav-link"
-                    href="./E-Statement\Send-WA.jsp"
+                    href="../E-Statement\Send-WA.jsp"
                     style="color: #ffffff"
                     >Send WhatsApp</a
                   >
@@ -245,22 +245,7 @@
               <li class="breadcrumb-item">Content Configuration</li>
             </ol>
             <div class="row">
-            <div class="col-xl-4">
-                <div class="card mb-4 text-center">
-                  <div class="card-body">
-                    <a href="email-configuration.jsp" class="nav-link">
-                      <h1 class=""><i class="fa fa-envelope fa-4x"></i></h1>
-                      <h4 class="card-title">Mail Configuration</h4>
-                      <p class="card-text">
-                        <small>
-                          Configure Email Content, such as Body, Title <br />
-                          </small
-                        >
-                      </p>
-                    </a>
-                  </div>
-                </div>
-              </div>
+            
               <div class="col-xl-4">
                 <div class="card mb-4 text-center">
                   <div class="card-body">

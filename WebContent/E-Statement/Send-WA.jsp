@@ -65,7 +65,7 @@
         <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             <div class="nav-item mt-2">
                 <!-- <img src="img/spm.jpg" class="img-fluid" alt="" /> -->
-                <h5>Hi Admin!</h5>
+                <h5>Hi <%=current %>!</h5>
             </div>
         </div>
         <!-- Navbar-->
@@ -143,7 +143,7 @@
                     style="color: #ffffff"
                     >Preview Sampling</a
                   > -->
-                  <a class="nav-link" href="../administration/user-maangement.jsp" style="color: #ffffff"
+                  <a class="nav-link" href="../administration/user-management.jsp" style="color: #ffffff"
                     >User Management</a
                   >
                 </nav>

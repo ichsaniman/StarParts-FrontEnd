@@ -272,7 +272,7 @@
                   >
                   <a
                     class="nav-link"
-                    href="./E-Statement\Send-WA.jsp"
+                    href="../E-Statement\Send-WA.jsp"
                     style="color: #ffffff"
                     >Send WhatsApp</a
                   >

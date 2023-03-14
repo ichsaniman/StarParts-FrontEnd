@@ -209,10 +209,8 @@
                     style="color: #ffffff"
                     >Content Configuration</a
                   >
-                  <a class="nav-link" href="administration\previewSampling.jsp" style="color: #ffffff"
-                    >Preview Sampling</a
-                  >
-                  <a class="nav-link" href="administration\user-maangement.jsp" style="color: #ffffff"
+                  
+                  <a class="nav-link" href="administration\user-management.jsp" style="color: #ffffff"
                     >User Management</a
                   >
                 </nav>

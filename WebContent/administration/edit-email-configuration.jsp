@@ -278,7 +278,7 @@
                     style="color: #ffffff"
                     >Preview Sampling</a
                   > -->
-                  <a class="nav-link" href="user-maangement.jsp" style="color: #ffffff"
+                  <a class="nav-link" href="user-management.jsp" style="color: #ffffff"
                     >User Management</a
                   >
                 </nav>
@@ -315,7 +315,7 @@
                   >
                   <a
                     class="nav-link"
-                    href="./E-Statement\Send-WA.jsp"
+                    href="../E-Statement\Send-WA.jsp"
                     style="color: #ffffff"
                     >Send WhatsApp</a
                   >
@@ -328,6 +328,7 @@
                 </nav>
               </div>
             </div>
+          
           </div>
           <div class="sb-sidenav-footer">
             <!-- <div class="small">Logged in as:</div> -->

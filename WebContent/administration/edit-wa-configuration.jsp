@@ -115,12 +115,12 @@
           id="sidenavAccordion"
           style="background-color: #640405"
         >
-          <div class="sb-sidenav-menu">
+           <div class="sb-sidenav-menu">
             <div class="nav">
               <!-- <br> -->
               <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
               </div> -->
-              <a class="nav-link mt-3" href="index.html" style="color: #ffffff">
+              <a class="nav-link mt-3" href="../home.jsp" style="color: #ffffff">
                 <div class="sb-nav-link-icon">
                   <i class="fas fa-tachometer-alt"></i>
                 </div>
@@ -153,15 +153,12 @@
                 data-bs-parent="#sidenavAccordion"
               >
                 <nav class="sb-sidenav-menu-nested nav">
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
+                  <a class="nav-link" href="generate-pdf.jsp" style="color: #ffffff"
                     >Generate PDF</a
                   >
                   <a
                     class="nav-link"
-                    href="content2.html"
+                    href="content.jsp"
                     style="color: #ffffff"
                     >Content Configuration</a
                   >
@@ -171,10 +168,7 @@
                     style="color: #ffffff"
                     >Preview Sampling</a
                   > -->
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
+                  <a class="nav-link" href="user-management.jsp" style="color: #ffffff"
                     >User Management</a
                   >
                 </nav>
@@ -205,21 +199,21 @@
                 <nav class="sb-sidenav-menu-nested nav">
                   <a
                     class="nav-link"
-                    href="layout-static.html"
+                    href="../E-Statement/cutomer-pdf-data.jsp"
                     style="color: #ffffff"
                     >Customers PDF Data</a
                   >
                   <a
                     class="nav-link"
-                    href="layout-sidenav-light.html"
+                    href="../E-Statement\Send-WA.jsp"
                     style="color: #ffffff"
-                    >Send Email</a
+                    >Send WhatsApp</a
                   >
                   <a
                     class="nav-link"
-                    href="layout-static.html"
+                    href="../E-Statement\history-report.jsp"
                     style="color: #ffffff"
-                    >Email Report</a
+                    >WhatsApp Report</a
                   >
                 </nav>
               </div>

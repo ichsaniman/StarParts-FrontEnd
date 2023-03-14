@@ -170,7 +170,7 @@ try{
                   >
                   <a
                     class="nav-link"
-                    href="administration\content.jsp"
+                    href="content.jsp"
                     style="color: #ffffff"
                     >Content Configuration</a
                   >

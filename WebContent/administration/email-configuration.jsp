@@ -127,7 +127,7 @@ try{
           id="sidenavAccordion"
           style="background-color: #640405"
         >
-          <div class="sb-sidenav-menu">
+           <div class="sb-sidenav-menu">
             <div class="nav">
               <!-- <br> -->
               <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
@@ -180,7 +180,7 @@ try{
                     style="color: #ffffff"
                     >Preview Sampling</a
                   > -->
-                  <a class="nav-link" href="user-maangement.jsp" style="color: #ffffff"
+                  <a class="nav-link" href="user-management.jsp" style="color: #ffffff"
                     >User Management</a
                   >
                 </nav>
@@ -217,7 +217,7 @@ try{
                   >
                   <a
                     class="nav-link"
-                    href="./E-Statement\Send-WA.jsp"
+                    href="../E-Statement\Send-WA.jsp"
                     style="color: #ffffff"
                     >Send WhatsApp</a
                   >

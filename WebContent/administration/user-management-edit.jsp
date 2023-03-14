@@ -87,7 +87,7 @@
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav" id="sidenavAccordion" style="background-color: #640405">
-                <div class="sb-sidenav-menu">
+            <div class="sb-sidenav-menu">
             <div class="nav">
               <!-- <br> -->
               <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
@@ -130,7 +130,7 @@
                   >
                   <a
                     class="nav-link"
-                    href="administration\content.jsp"
+                    href="content.jsp"
                     style="color: #ffffff"
                     >Content Configuration</a
                   >
@@ -140,7 +140,7 @@
                     style="color: #ffffff"
                     >Preview Sampling</a
                   > -->
-                  <a class="nav-link" href="user-maangement.jsp" style="color: #ffffff"
+                  <a class="nav-link" href="user-management.jsp" style="color: #ffffff"
                     >User Management</a
                   >
                 </nav>
@@ -177,7 +177,7 @@
                   >
                   <a
                     class="nav-link"
-                    href="./E-Statement\Send-WA.jsp"
+                    href="../E-Statement\Send-WA.jsp"
                     style="color: #ffffff"
                     >Send WhatsApp</a
                   >
@@ -190,6 +190,7 @@
                 </nav>
               </div>
             </div>
+          
           </div>
                 <div class="sb-sidenav-footer">
                     <!-- <div class="small">Logged in as:</div> -->
