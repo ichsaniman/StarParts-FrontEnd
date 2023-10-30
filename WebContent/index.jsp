@@ -61,7 +61,15 @@
                       >
                         Sign into your account
                       </h5>
-
+						<% Message m1=(Message) session.getAttribute("msgLogin");
+					  			if(m1!=null){
+					  				%><div class="alert alert-<%=m1.getCssClass()%>" role="alert">
+					  					<%=m1.getContent() %>
+					  				</div>
+					  				<%
+					  			}
+					  		%>
+					  		<%session.removeAttribute("msgLogin"); %>
                       <div class="form-outline mb-4">
                         <input
                           type="text"
@@ -94,15 +102,7 @@
                           Login
                         </button>
                       </div>
-						<% Message m1=(Message) session.getAttribute("msgLogin");
-					  			if(m1!=null){
-					  				%><div class="alert alert-<%=m1.getCssClass()%>" role="alert">
-					  					<%=m1.getContent() %>
-					  				</div>
-					  				<%
-					  			}
-					  		%>
-					  		<%session.removeAttribute("msg"); %>
+						
                       <!-- <a class="small text-muted" href="#!">Forgot password?</a> -->
                       <!-- <p class="mb-5 pb-lg-2" style="color: #393f81"> -->
                       <!-- Don't have an account? -->

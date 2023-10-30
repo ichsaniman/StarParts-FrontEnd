@@ -6,7 +6,11 @@
     // 
 // Scripts
 // 
-
+$(document).ready(function() {
+    $('.js-example-basic-single').select2({
+        placeholder: "Select"
+    });
+});
 window.addEventListener('DOMContentLoaded', event => {
 
     // Toggle the side navigation

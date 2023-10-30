@@ -1,3 +1,4 @@
+<%@page import="id.git.service.ChatJson"%>
 <%@page import="id.git.util.Function"%>
 <%@page import="id.git.service.CheckService"%>
 <%@page import="java.util.Map.Entry"%>
@@ -16,12 +17,15 @@
  	try{
 
  		if(session.getAttribute("currentUser") !=null){
+ 			int countCustomer = SQLData.customerCount();
  			String current = session.getAttribute("currentUser").toString();
+ 			int role = SQLData.getUserRole(current); 
  			System.out.println("cek user: "+current);
  			HashMap<String, Double> set = SQLData.selectChart();
  			if(set.size() == 0) set.put(Function.getPeriod(), 0.0);
  			Double obs = Collections.max(set.values());
  			System.out.println(obs);
+ 			String json = ChatJson.get();
  			DecimalFormat df1 = new DecimalFormat("#.##");
  			HashMap<String, Double> fix = new HashMap<String, Double>();
  			Double total3;
@@ -65,12 +69,12 @@
       href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css"
       rel="stylesheet"
     />
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet" />
     <script
       src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="icon" href="img/spm.jpg" type="image/x-icon" />
+    <link rel="icon" href="${pageContext.request.contextPath}/img/spm.jpg" type="image/x-icon" />
     <!-- Font Awesome -->
     <link
       rel="stylesheet"
@@ -82,14 +86,18 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
     />
     <!-- MDB -->
-    <link rel="stylesheet" href="css/mdb.min.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mdb.min.css" />
   </head>
+  <script type="text/javascript">
+  
+ 
+  </script>
   <body
     class="sb-nav-fixed"
     style="
       /* padding-left: 10px; */
       background-color: #eff4f3;
-      background-image: url(img/img4.png);
+      background-image: url(${pageContext.request.contextPath}/img/img4.png);
       background-repeat: no-repeat;
       background-attachment: fixed;
       white-space: nowrap;
@@ -111,7 +119,7 @@
       <!-- <nav class="sb-topnav navbar navbar-expand navbar bg-light" style="background-color: #640405"></nav> -->
       <!-- Navbar Brand-->
       <!-- <a class="navbar-brand ps-3" href="index.html">E-Statement</a> -->
-      <img src="img/spm.jpg" class="navbar-brand img-fluid ps-2" alt="" />
+      <img src="${pageContext.request.contextPath}/img/spm.jpg" class="navbar-brand img-fluid ps-2" alt="" />
       <!-- Sidebar Toggle-->
       <button
         class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
@@ -146,8 +154,7 @@
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdown"
           >
-            <li><a class="dropdown-item" href="#!">Settings</a></li>
-            <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+            
             <li><hr class="dropdown-divider" /></li>
             <li><a class="dropdown-item" href="#!">Logout</a></li>
           </ul>
@@ -164,10 +171,11 @@
         >
           <div class="sb-sidenav-menu">
             <div class="nav">
+            
               <!-- <br> -->
               <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
               </div> -->
-              <a class="nav-link mt-3" href="home.jsp" style="color: #ffffff">
+              <a class="nav-link mt-3" href="${pageContext.request.contextPath}/Home" style="color: #ffffff">
                 <div class="sb-nav-link-icon">
                   <i class="fas fa-tachometer-alt"></i>
                 </div>
@@ -176,6 +184,11 @@
               <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
                 Interface
               </div> -->
+              <%
+              	if(role == 1){
+              		
+              	
+              %>
               <a
                 class="nav-link collapsed"
                 href="#"
@@ -200,12 +213,12 @@
                 data-bs-parent="#sidenavAccordion"
               >
                 <nav class="sb-sidenav-menu-nested nav">
-                  <a class="nav-link" href="administration\generate-pdf.jsp" style="color: #ffffff"
+                  <a class="nav-link" href="${pageContext.request.contextPath}/GeneratePDF" style="color: #ffffff"
                     >Generate PDF</a
                   >
                   <a
                     class="nav-link"
-                    href="administration\content.jsp"
+                    href="${pageContext.request.contextPath}/Content"
                     style="color: #ffffff"
                     >Content Configuration</a
                   >
@@ -215,6 +228,7 @@
                   >
                 </nav>
               </div>
+              
               <a
                 class="nav-link collapsed"
                 href="#"
@@ -259,6 +273,9 @@
                   >
                 </nav>
               </div>
+              <%
+              	}
+             	%>
             </div>
           </div>
           <div class="sb-sidenav-footer">
@@ -288,7 +305,7 @@
                   </div>
                   <div class="card-body">
                     <h1 class="justify-content-center align-items-center">
-                      50.000 Person<i class="fas fa-user me-1 float-end"></i>
+                      <%=countCustomer %> Person<i class="fas fa-user me-1 float-end"></i>
                     </h1>
                     <!-- <canvas id="myAreaChart" width="100%" height=""></canvas> -->
                   </div>
@@ -322,41 +339,17 @@
                 <div class="card mb-4">
                   <div class="card-header">
                     <i class="fas fa-chart-bar me-1"></i>
-                    Generate Success Chart
+                    Send Status Chart
                   </div>
                   <div class="card-body">
-                    <canvas id="myBarChart" width="100%" height="80"></canvas>
-                    <ol hidden>
+                    <input type="month" onchange="filter1(this)">  
+                    <canvas id="myBarChart1" width="100%" height="80"></canvas>
                     
-                    <li value="<%=obs %>" id="maximum" hidden />
-                      Value
-     				<%
-     					Set<String> b = reverseSortedMap1.keySet();
-     					int j = 1;
-     					int k = 1;
-     					String datel ="";
-	     				for(String i : b) {
-		          		out.print("<li id='data"+ j++ +"' value='"+ reverseSortedMap1.get(i) +"'></li>");
-         			 	
-         			 %>
-                    </ol>
-                    <ol hidden>
-                      Tittle
-                      <%
-                      	String per1 = i;
-                     	SimpleDateFormat format1 = new SimpleDateFormat("MMyyyy");
-              	    	SimpleDateFormat format2 = new SimpleDateFormat("MMM yy");
-              	   		Date date = format1.parse(per1);
-        				datel = format2.format(date);
-		          		out.print("<li id='tittle"+ k++ +"' title='"+ datel +"'></li>");
-         			 	}
-	     				
-         			 %>
-                     
-                    </ol>
                   </div>
                 </div>
               </div>
+              <div class="col-xl-6"></div>
+              
             </div>
           </div>
         </main>
@@ -371,28 +364,126 @@
         <!-- </footer> -->
       </div>
     </div>
-    <script
+     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
-    <script src="js/scripts.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-      crossorigin="anonymous"
-    ></script>
+    <!-- <script src="js/scripts.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <!-- <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+    crossorigin="anonymous"
+  ></script> -->
+    <!-- <script src="assets/demo/chart-area-demo.js"></script> -->
+    <!-- <script src="assets/demo/chart-bar-demo.js"></script> -->
    
-    <script src="assets/demo/chart-bar-demo.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"
       crossorigin="anonymous"
     ></script>
-    <script src="js/datatables-simple-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/datatables-simple-demo.js"></script>
     <!-- MDB -->
-    <script type="text/javascript" src="js/mdb.min.js"></script>
-
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mdb.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/scripts.js"></script>
     <!-- Custom scripts -->
     <script type="text/javascript"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+	<script >
+	 let titleG = [];
+	 let Gdataf = [];
+     let Gdata = [];
+     let Sdata = [];
+     let Sdataf = [];
+     let mins = [];
+     var ctx1 = document.getElementById("myBarChart1");
+     let test = <%=json%>;
+     console.log(test);
+     save(test);
+     
+	function save(response){
+		const {min, dataMain} = response;
+    	mins.push(min);
+   	 	for (let i = 0; i < dataMain.length; i++) {
+   		    titleG.push(dataMain[i].Date);
+   		    	for(let dl = 0; dl< dataMain[i].data.length; dl++){
+   		        	let status = dataMain[i].data[dl].Status;
+   		        	let total = dataMain[i].data[dl].Total;
+   		        	if(status == "R"){
+   		        		Sdataf.push(total);
+   		        	}else{
+   		        		Sdata.push(total);
+   		        	}
+   		    	}
+   		    // console.log(tmp)
+   		  }
+	}
+     console.log(mins[0]);
+     for(let a = 0 ; a< titleG.length; a ++){
+    	 console.log(titleG[a]);
+     }
+     
+	
+      const myChart1 = new Chart(ctx1, {
+              type: "bar",
+              data: {
+                labels: titleG,
+                datasets: [
+            {
+              label: "Succes PDF Send",
+              // backgroundColor: "rgba(2,117,216,1)",
+              backgroundColor: "#229410",
+              borderColor: "rgba(2,117,216,1)",
+              data: Sdata,
+            },
+            {
+              label: "Failed PDF Send ",
+              // backgroundColor: "rgba(2,117,216,1)",
+              backgroundColor: "#940000",
+              borderColor: "rgba(2,117,216,1)",
+              data: Sdataf,
+            },
+          ],
+          },
+          options: {
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  gridLines:{
+                    display:true
+                  }
+                },
+                x:{
+                  type:'time',
+                  time:{
+                    unit:'month'
+                  }, 
+                  min:mins[0],
+                  gridLines:{
+                    display: false,
+                  }
+                }
+              }
+          }     
+      })
+      
+        
+	
+	
+	function filter1(date){
+        console.log(date.value);
+        const year = date.value.substring(0,4);
+        const month = date.value.substring(5,7);
+        console.log(month +" samlekum "+year);
+        const startDate = date.value;
+        console.log(startDate)
+        myChart1.options.scales.x.min = startDate;
+        myChart1.options.scales.x.max= startDate;
+        myChart1.update();
+      }
+        </script>
   </body>
 </html>
 <%
