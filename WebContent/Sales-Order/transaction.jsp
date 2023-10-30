@@ -97,7 +97,6 @@
         var tableRows = document.querySelectorAll('#TransactionsTable tbody tr');
         
         tableRows.forEach(function(row) {
-            // Extract the status from the row (you may need to adapt this based on your actual structure)
             let status = row.getAttribute('data-status');
 
 	        if (currentFilter === "Semua" || currentFilter === status) {
