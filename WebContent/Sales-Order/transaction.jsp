@@ -13,6 +13,7 @@
 		NumberFormat format = NumberFormat.getCurrencyInstance(indo);
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
+		String currentFilter = "Semua";
 %>
 	<!DOCTYPE html>
 <html lang="en">
@@ -91,6 +92,19 @@
         var pending = document.getElementById("Pending");
         var OnProgress = document.getElementById("OnProgress");
         var success = document.getElementById("Success");
+        currentFilter = btn.value
+        
+        var tableRows = document.querySelectorAll('#TransactionsTable tbody tr');
+        
+        tableRows.forEach(function(row) {
+            let status = row.getAttribute('data-status');
+
+	        if (currentFilter === "Semua" || currentFilter === status) {
+	            row.style.display = 'table-row';
+	        } else {
+	            row.style.display = 'none';
+	        }
+        });
 
         // console.log(semua.className);
         console.log(btn.value);
@@ -487,19 +501,19 @@
                           <%
                           	for(int i = 0; i< all.size(); i++){
                           		String[] trx = all.get(i);
+                          		
                           		Date date = sdf1.parse(trx[1]);
-                          		
-                          		out.print("<tr>");
-                          		out.print("<td>"+trx[0]+"</td>");
-                          		out.print("<td>"+sdf2.format(date)+"</td>");
-                          		out.print("<td>"+trx[2]+"</td>");
-                          		out.print("<td>"+trx[3]+"</td>");
-                          		out.print("<td>"+format.format(Double.valueOf(trx[4]))+"</td>");
-                          		out.print("<td>"+trx[5]+"</td>");
-                          		
-                          		out.print("<td><button type='button' class='btn btn-secondary' onclick=\"detailDiscounts('"+trx[0]+"')\">Transactions Details</button></td>");			
-                          		
-                          		out.print("</tr>");
+                          		out.print("<tr data-status=\"" + trx[5] + "\">");
+                           		out.print("<td>"+trx[0]+"</td>");
+                           		out.print("<td>"+sdf2.format(date)+"</td>");
+                           		out.print("<td>"+trx[2]+"</td>");
+                           		out.print("<td>"+trx[3]+"</td>");
+                           		out.print("<td>"+format.format(Double.valueOf(trx[4]))+"</td>");
+                           		out.print("<td>"+trx[5]+"</td>");
+                           		
+                           		out.print("<td><button type='button' class='btn btn-secondary' onclick=\"detailDiscounts('"+trx[0]+"')\">Transactions Details</button></td>");			
+                           		
+                           		out.print("</tr>");
                           	}
                           %>
                           </tbody>
