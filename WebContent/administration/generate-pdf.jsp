@@ -54,9 +54,9 @@
     <meta name="author" content="" />
     <title>E-Statement</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link href="../css/styles.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <link rel="icon" href="../img/spm.jpg" type="image/x-icon" />
+    <link rel="icon" href="${pageContext.request.contextPath}/img/spm.jpg" type="image/x-icon" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <!-- Google Fonts Roboto -->
@@ -67,7 +67,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <!-- <link rel="stylesheet" href="css/mdb.dark.min.css" /> -->
-    <link rel="stylesheet" href="../css/mdb.min.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mdb.min.css" />
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
 </head>
 <script type="text/javascript">
@@ -111,7 +111,7 @@
 <body class="sb-nav-fixed" style="
       /* padding-left: 10px; */
       background-color: #eff4f3;
-      background-image: url(../img/img4.png);
+      background-image: url(${pageContext.request.contextPath}/img/img4.png);
       background-repeat: no-repeat;
       white-space: nowrap;
       overflow-x: auto;
@@ -131,7 +131,7 @@
       <!-- <nav class="sb-topnav navbar navbar-expand navbar bg-light" style="background-color: #640405"></nav> -->
       <!-- Navbar Brand-->
       <!-- <a class="navbar-brand ps-3" href="index.html">E-Statement</a> -->
-      <img src="../img/spm.jpg" class="navbar-brand img-fluid ps-2" alt="" />
+      <img src="${pageContext.request.contextPath}/img/spm.jpg" class="navbar-brand img-fluid ps-2" alt="" />
       <!-- Sidebar Toggle-->
       <button
         class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
@@ -187,7 +187,7 @@
               <!-- <br> -->
               <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
               </div> -->
-              <a class="nav-link mt-3" href="../home.jsp" style="color: #ffffff">
+              <a class="nav-link mt-3" href="${pageContext.request.contextPath}/Home" style="color: #ffffff">
                 <div class="sb-nav-link-icon">
                   <i class="fas fa-tachometer-alt"></i>
                 </div>
@@ -592,17 +592,17 @@
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     crossorigin="anonymous"
   ></script>
-	<script src="../js/scripts.js"></script>
+	<script src="${pageContext.request.contextPath}/js/scripts.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
    <!-- <script src="js/datatables.js"></script> -->
-   <script src="../js/datatables.js"></script>    <!-- MDB -->
-    <script type="text/javascript" src="../js/mdb.min.js"></script>
+   <script src="${pageContext.request.contextPath}/js/datatables.js"></script>    <!-- MDB -->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mdb.min.js"></script>
 
     <!-- Custom scripts -->
     <script type="text/javascript"></script>
-    <script type="text/javascript" src="../js/search.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/search.js"></script>
 </body>
 
 </html>

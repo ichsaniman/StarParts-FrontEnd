@@ -65,8 +65,8 @@ public class Outlet extends HttpServlet {
 				String[] data = ListCustomer.get(n);
 				String oid = data[0];
 				String name = data[1];
-				String email = data[3];
-				String phone = data[2];
+				String email = data[2];
+				String phone = data[3];
 				if (phone.contains("-"))
 					phone = phone.replace("-", "").trim();
 				if (phone.startsWith("0"))

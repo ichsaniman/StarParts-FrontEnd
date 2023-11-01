@@ -1,14 +1,469 @@
 package id.git.db;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public class SQLData {
+	
+	
+	public static List<String[]> getDetailItemTRX(String id){
+		String sql = "SELECT si.\"ITEM_ID\" , si.\"ITEM_NAME\" , sod.\"ORDER_DETAIL_QTY\" ,si.\"ITEM_PRICE\", sod.\"ORDER_DETAIL_PRICE\" "
+				+"FROM \"SP_ORDER_DETAIL\" sod "
+				+"JOIN \"SP_ITEMS\" si ON sod.\"ORDER_DETAIL_ITEM\" = si.\"ITEM_ID\" "
+				+"WHERE sod.\"ORDER_ID\" = '"+id+"'";
+		return execute(sql);
+	}
+	
+	public static String[] executeArrys(String sql) {
+		String[] resultList = null;
+		Connection conn = DBEngine.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (conn != null) {
+			try {
+				ps = conn.prepareStatement(sql);
+				rs = ps.executeQuery();
+				if (!rs.next()) {
+					System.out.println("no data found");
+				} else {
+					int columnCount = rs.getMetaData().getColumnCount();
+					do {
+						String[] row = new String[columnCount];
+						for (int i = 0; i < row.length; ++i) {
+//							System.out.println(rs.getString(i + 1));
+							
+							row[i] = String.valueOf(rs.getString(i + 1));
+						}
+						resultList = row;
+					}
+
+					while (rs.next());
+					System.out.println("[OK] " + resultList.length +" Column");
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+//				System.out.println(e.getMessage());
+			} finally {
+				try {
+					rs.close();
+					ps.close();
+					conn.close();
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}
+		}
+		return resultList;
+	}
+	
+	public static List<String[]> getDetailDiscount(String id){
+		List<String[]> result = new ArrayList<String[]>();
+		System.out.println("masuk detail");
+		List<String> discount = getOrderDiscounts(id);
+		for(String d1 : discount) {			
+			String sql = "SELECT sd.\"DISCOUNTS_ID\", sd.\"DISCOUNTS_NAME\", sdd.\"DISCOUNTS_DETAIL_AMMOUNT\" "
+					+"FROM \"SP_DISCOUNTS\" sd "
+					+"JOIN \"SP_DISCOUNTS_DETAIL\" sdd ON sd.\"DISCOUNTS_ID\" = sdd.\"DISCOUNTS_ID\" "
+					+"WHERE sd.\"DISCOUNTS_ID\" = '"+d1+"'";
+			System.out.println(sql);
+			String[] row = executeArrys(sql);
+			if(row != null) {
+				result.add(row);				
+			}
+		}
+		System.out.println("[OK] " + result.size() +" Row");
+		return result;
+	}
+	public static List<String> getOrderDiscounts(String id) {
+		List<String> result = new ArrayList<String>();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DBEngine.getConnection();
+
+			String sql = "SELECT \"DISCOUNTS_ID\" FROM \"SP_ORDER_DETAIL_DISCOUNTS\" WHERE \"ORDER_ID\" = ?";
+			// log.info("sql=" + sql);
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				result.add(rs.getString(1));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public static  List<String[]> getOuletDetail(String id){
+		String sql = "SELECT so.\"OUTLET_ID\",so.\"OUTLET_NAME\", so.\"OUTLET_PHONE\", so.\"OUTLET_ADDRESS\",  st.\"TYPE_NAME\", st.\"TYPE_PERCENTAGE\" "
+				+"FROM \"SP_OUTLET\" so "
+				+"JOIN \"SP_TYPE_OUTLET\" st ON so.\"OUTLET_STATUS\" = st.\"TYPE_ID\" "
+				+"WHERE \"OUTLET_ID\" = '"+id+"'";
+		return execute(sql);
+	}
+	
+	public static  List<String[]> getOrder(String id){
+		String sql = "SELECT \"ORDER_ID\" , \"ORDER_DATE\", \"ORDER_TIME\", \"ORDER_STATUS\", \"ORDER_CUSTOMER_ID\" FROM \"SP_ORDER\" WHERE \"ORDER_ID\" = '"+id+"'";
+		return execute(sql);
+	}
+	
+	public static List<String[]> transactionAll(){
+		String sql = "SELECT so.\"ORDER_ID\", so.\"ORDER_DATE\", so.\"ORDER_TIME\", sot.\"OUTLET_NAME\", so.\"ORDER_TOTAL_PRICE\", so.\"ORDER_STATUS\" FROM \"SP_ORDER\" so "
+				+"JOIN \"SP_OUTLET\" sot ON so.\"ORDER_CUSTOMER_ID\" = sot.\"OUTLET_ID\" "
+				+"ORDER BY so.\"ORDER_DATE\" DESC, so.\"ORDER_TIME\" DESC ";
+		return execute(sql);
+	}
+	
+	public static boolean updateStatus(String id, String status) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DBEngine.getConnection();
+
+			String sql = "UPDATE \"SP_DISCOUNTS_DETAIL\" SET \"DISCOUNTS_DETAIL_STATUS\"='"+status+"' WHERE \"DISCOUNTS_ID\"= '"+id+"'";
+			// log.info("sql=" + sql);
+			ps = conn.prepareStatement(sql);
+			int i = ps.executeUpdate();
+			if (i > 0) {
+				result = true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public static List<String[]> getDiscounts(String id){
+		String sql ="SELECT ds.\"DISCOUNTS_ID\", ds.\"DISCOUNTS_NAME\", ds.\"DISCOUNTS_START_DATE\",ds.\"DISCOUNTS_EXPIRED_DATE\", ds.\"DISCOUNTS_START_TIME\", ds.\"DISCOUNTS_EXPIRED_TIME\", sdd.\"DISCOUNTS_DETAIL_AMMOUNT\" "
+				+"FROM \"SP_DISCOUNTS\" AS ds JOIN \"SP_DISCOUNTS_DETAIL\" AS sdd ON ds.\"DISCOUNTS_ID\" = sdd.\"DISCOUNTS_ID\" WHERE ds.\"DISCOUNTS_ID\" = '"+id+"'";
+		return execute(sql);
+	}
+	public static boolean deleteDiscount(String id) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DBEngine.getConnection();
+
+			String sql = "DELETE FROM \"SP_DISCOUNTS\" WHERE \"DISCOUNTS_ID\"=?";
+			// log.info("sql=" + sql);
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			
+			int i = ps.executeUpdate();
+			if (i > 0) {
+				result = true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public static boolean insertDetail(String id,String status, String rules, String amounth, String detail) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DBEngine.getConnection();
+
+			String sql = "INSERT INTO \"SP_DISCOUNTS_DETAIL\" ( \"DISCOUNTS_ID\", \"DISCOUNTS_DETAIL_STATUS\", \"DISCOUNTS_DETAIL_RULES\", \"DISCOUNTS_DETAIL_AMMOUNT\", \"DISCOUNT_DETAIL_DESCRIPTION\") VALUES( ?, ?, ?, ?, ?)";
+			// log.info("sql=" + sql);
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			ps.setString(2, status);
+			ps.setString(3, rules);
+			ps.setString(4, amounth);
+			ps.setString(5, detail);
+			int i = ps.executeUpdate();
+			if (i > 0) {
+				result = true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public static boolean insertDiscounts(String id, String name, String type, Date StartDate, Date endDate, Time startTime, Time endTime) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DBEngine.getConnection();
+
+			String sql = "INSERT INTO \"SP_DISCOUNTS\" (\"DISCOUNTS_ID\", \"DISCOUNTS_NAME\", \"DISCOUNTS_TYPE\", \"DISCOUNTS_START_DATE\", \"DISCOUNTS_EXPIRED_DATE\", \"DISCOUNTS_START_TIME\", \"DISCOUNTS_EXPIRED_TIME\") VALUES(?, ?, ?, ?, ?, ?, ?)";
+			// log.info("sql=" + sql);
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			ps.setString(2, name);
+			ps.setString(3, type);
+			ps.setDate(4, StartDate);
+			ps.setDate(5, endDate);
+			ps.setTime(6, startTime);
+			ps.setTime(7, endTime);
+			int i = ps.executeUpdate();
+			if (i > 0) {
+				result = true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public static List<String[]> getOutletCode(){
+		String sql = "SELECT * FROM \"SP_OUTLET_CODE\"";
+		return execute(sql);
+	}
+	public static boolean checkDiscountID(String id) {
+		boolean result = false;
+		Connection conn = DBEngine.getConnection();
+		String sql = "SELECT * FROM \"SP_DISCOUNTS\" WHERE \"DISCOUNTS_ID\" = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				result = true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public static List<String[]> getDiscountsAll(){
+		String sql = "SELECT ds.\"DISCOUNTS_ID\", ds.\"DISCOUNTS_NAME\", ds.\"DISCOUNTS_TYPE\",  ds.\"DISCOUNTS_START_DATE\",ds.\"DISCOUNTS_EXPIRED_DATE\", "
+				+"ds.\"DISCOUNTS_START_TIME\", ds.\"DISCOUNTS_EXPIRED_TIME\",sdd.\"DISCOUNT_DETAIL_DESCRIPTION\",  sdd.\"DISCOUNTS_DETAIL_AMMOUNT\", sdd.\"DISCOUNTS_DETAIL_STATUS\" "
+				+"FROM \"SP_DISCOUNTS\" AS ds "
+				+"JOIN \"SP_DISCOUNTS_DETAIL\" AS sdd ON ds.\"DISCOUNTS_ID\" = sdd.\"DISCOUNTS_ID\"";
+		return execute(sql);
+	}
+	public static int customerCount() {
+		int result = 0;
+		Connection conn = DBEngine.getConnection();
+		String sql = "SELECT COUNT(\"OUTLET_ID\") FROM \"SP_OUTLET\";";
+		PreparedStatement ps = null;
+		System.out.println(sql);
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public static TreeMap<String, HashMap<String, Integer>> getChart() {
+		TreeMap<String, HashMap<String, Integer>> result = new TreeMap<String, HashMap<String,Integer>>();
+		Connection conn = DBEngine.getConnection();
+		String sql = "SELECT COUNT(\"CUSTOMER_ID\") , \"LOG_STATUS\", \"LOG_GENERATE_DATE\" FROM (SELECT DISTINCT \"CUSTOMER_ID\", \"LOG_GENERATE_DATE\" ,\"LOG_STATUS\"FROM \"SP_LOG\"  WHERE \"LOG_STATUS\" !='N' AND \"LOG_MESSAGE\" !='Ready to Send') as tmp GROUP BY \"LOG_GENERATE_DATE\" ,  \"LOG_STATUS\" ORDER BY \"LOG_GENERATE_DATE\" ";
+		PreparedStatement ps = null;
+		System.out.println(sql);
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int total = rs.getInt(1);
+				String status = rs.getString(2);
+				String date = rs.getString(3);
+				String period = date.substring(0,7);
+				System.out.println("query: "+period);
+				if(result.containsKey(period)){
+					if(result.get(period).containsKey(status)) {
+						int tmp1 = result.get(period).get(status);
+						tmp1 += total;
+						result.get(period).put(status, tmp1);
+					}else {
+						result.get(period).put(status, total);						
+					}
+				}else {
+					result.put(period, new HashMap<String, Integer>());
+					result.get(period).put(status, total);
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public static int getUserRole(String username) {
+		int result = 0;
+		Connection conn = DBEngine.getConnection();
+		String sql = "SELECT \"USER_ROLE\" FROM \"SP_USER\"  WHERE \"USER_USERNAME\" = '"+username+"'";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				result = rs.getInt("USER_ROLE");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 	public static String insertOutlet(String id, String name, String email, String phone) {
 		String result = "";
 		Connection conn = null;

@@ -66,13 +66,13 @@ public class Login extends HttpServlet {
 		 if(username.equals(null)||username.equals("")||username.equals(" ")) {
 			 Message m = new Message("Please Fill username", "error", "danger");
 		 		session.setAttribute("msgLogin",m );
-		 		rd = request.getRequestDispatcher("index.jsp");
+//		 		rd = request.getRequestDispatcher("index.jsp");
 		 		response.sendRedirect("index.jsp");
 		 		System.out.println("Failed Login");
 		 }else if(pass.equals(null)||pass.equals("")||pass.equals(" ")) {
 			 Message m = new Message("Please Fill Password ", "error", "danger");
 		 		session.setAttribute("msgLogin",m );
-		 		rd = request.getRequestDispatcher("index.jsp");
+//		 		rd = request.getRequestDispatcher("index.jsp");
 		 		response.sendRedirect("index.jsp");
 		 		System.out.println("Failed Login");
 		 }
@@ -85,8 +85,8 @@ public class Login extends HttpServlet {
 		 	if(check == true){
 		 		session.setAttribute("currentUser",username );
 		 		System.out.println("username Login:	"+username);
-		 		rd = request.getRequestDispatcher("home.jsp");
-		 		response.sendRedirect("home.jsp");
+//		 		rd = request.getRequestDispatcher("home.jsp");
+		 		response.sendRedirect("Home");
 //		 		rd.forward(request, response);
 		 	}
 		 	else{
