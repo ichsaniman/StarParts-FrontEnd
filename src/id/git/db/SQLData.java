@@ -11,14 +11,238 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
+import id.git.model.WaModel;
+
 public class SQLData {
 	
+	public static String updateChatCount(String from) {
+		String result = "false";
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DBEngine.getConnection();
+
+			String sql = "UPDATE \"SP_MESSAGE_LOG\" SET  \"MESSAGE_LOG_STATUS\"='' WHERE \"MESSAGE_LOG_FROM\" = ?";
+			// log.info("sql=" + sql);
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, from);
+			
+			int i = ps.executeUpdate();
+			if (i > 0) {
+				result = "success";
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public static List<String[]> getDateChat(String phone){
+		String sql="SELECT  \"MESSAGE_LOG_FROM\",  \"MESSAGE_LOG_TO\", \"MESSAGE_LOG_ID\",\"MESSAGE_LOG_TIMESTAMP\" , \"MESSAGE_LOG_MESSAGES\" "
+				+"FROM \"SP_MESSAGE_LOG\" "
+				+"WHERE \"MESSAGE_LOG_FROM\" = '"+phone+"' OR \"MESSAGE_LOG_TO\" = '"+phone+"' ORDER BY \"MESSAGE_LOG_TIMESTAMP\" DESC ";
+		return execute(sql);
+	}
+	public static boolean insertLogChat(String id, String to, String messages, long unix) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DBEngine.getConnection();
+
+			String sql = "INSERT INTO \"SP_MESSAGE_LOG\" (\"MESSAGE_LOG_ID\", \"MESSAGE_LOG_FROM\", \"MESSAGE_LOG_TO\", \"MESSAGE_LOG_STATUS\", \"MESSAGE_LOG_TIMESTAMP\", \"MESSAGE_LOG_MESSAGES\") "
+					+ "VALUES('"+id+"', 'Admin', '"+to+"', 'Sended', "+unix+", '"+messages+"')";
+			// log.info("sql=" + sql);
+			System.out.println(sql);
+			ps = conn.prepareStatement(sql);
+			int i = ps.executeUpdate();
+			if (i > 0) {
+				result = true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public static WaModel getWaParam() {
+		WaModel wa = new WaModel();
+		Connection conn = DBEngine.getConnection();
+		
+		String sql = "SELECT \"parameter_Name\", \"parameter_Value\" FROM \"parameter\"";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			HashMap<String, String> param = new HashMap<String, String>();
+ 			ps = conn.prepareStatement(sql);			
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				param.put(rs.getString(1), rs.getString(2));
+			}
+			wa.setId(param.get("wa.id"));
+			wa.setUrl(param.get("wa.url"));
+			wa.setProduct(param.get("wa.product"));
+			wa.setToken(param.get("wa.token"));
+			wa.setVersion(param.get("wa.version"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return wa;
+	}
+	public static List<String[]> getChat(String phone){
+		String sql = "SELECT  \"MESSAGE_LOG_FROM\",  \"MESSAGE_LOG_TO\", \"MESSAGE_LOG_ID\",\"MESSAGE_LOG_TIMESTAMP\" , \"MESSAGE_LOG_MESSAGES\" "
+				+"FROM \"SP_MESSAGE_LOG\" "
+				+"WHERE \"MESSAGE_LOG_FROM\" = '"+phone+"' OR \"MESSAGE_LOG_TO\" = '"+phone+"'  "
+				+"ORDER BY \"MESSAGE_LOG_TIMESTAMP\" ASC";
+		return execute(sql);
+	}
+	
+	public static List<String[]> getLatestMessage(String id){
+		String sql ="SELECT * FROM \"SP_MESSAGES\" WHERE \"MESSAGE_ID\" = '"+id+"'";
+		return execute(sql);
+	}
+	public static List<String[]> getLatestChat(String phone){
+		String sql="SELECT  \"MESSAGE_LOG_FROM\",  \"MESSAGE_LOG_TO\", \"MESSAGE_LOG_ID\",\"MESSAGE_LOG_TIMESTAMP\" , \"MESSAGE_LOG_MESSAGES\" "
+				+"FROM \"SP_MESSAGE_LOG\" "
+				+"WHERE \"MESSAGE_LOG_FROM\" = '"+phone+"' OR \"MESSAGE_LOG_TO\" = '"+phone+"' ORDER BY \"MESSAGE_LOG_TIMESTAMP\" DESC ";
+		return execute(sql);
+	}
+	public static int getCountChatNotRead(String phone) {
+		int result = 0;
+		Connection conn = DBEngine.getConnection();
+		String sql = "SELECT COUNT(\"MESSAGE_LOG_ID\") FROM \"SP_MESSAGE_LOG\" WHERE \"MESSAGE_LOG_FROM\" ='"+phone+"' AND \"MESSAGE_LOG_STATUS\" ='Recived' ";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public static List<String[]> getChatList(){
+		String sql = "SELECT \"LIVE_PHONE\", \"LIVE_TIMESTAMP\" "
+				+"FROM \"SP_LIVE_CHAT\" ORDER BY \"LIVE_TIMESTAMP\" DESC";
+		return execute(sql);
+	}
+	
+//	UPDATE "SP_ORDER" SET "ORDER_CUSTOMER_ID"='', "ORDER_TOTAL_PRICE"='', "ORDER_DATE"='', "ORDER_TIME"='', "ORDER_STATUS"='' WHERE "ORDER_ID"='';
+	public static String updateOrder(String id, String status) {
+		String result = "";
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DBEngine.getConnection();
+
+			String sql = "UPDATE \"SP_ORDER\" SET  \"ORDER_STATUS\"=? WHERE \"ORDER_ID\"=?";
+			// log.info("sql=" + sql);
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, status);
+			ps.setString(2, id);
+			
+			int i = ps.executeUpdate();
+			if (i > 0) {
+				result = "success";
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public static List<String[]> getOrderDetail(String id) {
+		String sql = "SELECT \"ORDER_CUSTOMER_ID\",\"ORDER_DATE\", \"ORDER_TIME\", \"ORDER_TOTAL_PRICE\",\"ORDER_STATUS\" "
+				+"FROM \"SP_ORDER\" WHERE \"ORDER_ID\" ='"+id+"'";
+		return execute(sql);
+	}
 	
 	public static List<String[]> getDetailItemTRX(String id){
-		String sql = "SELECT si.\"ITEM_ID\" , si.\"ITEM_NAME\" , sod.\"ORDER_DETAIL_QTY\" ,si.\"ITEM_PRICE\", sod.\"ORDER_DETAIL_PRICE\" "
-				+"FROM \"SP_ORDER_DETAIL\" sod "
-				+"JOIN \"SP_ITEMS\" si ON sod.\"ORDER_DETAIL_ITEM\" = si.\"ITEM_ID\" "
-				+"WHERE sod.\"ORDER_ID\" = '"+id+"'";
+		String sql = "SELECT \"ORDER_DETAIL_ITEM\" , \"ORDER_DETAIL_QTY\" , \"ORDER_DETAIL_PRICE\" "
+				+"FROM \"SP_ORDER_DETAIL\" "
+				+"WHERE \"ORDER_ID\" = '"+id+"'";
 		return execute(sql);
 	}
 	
@@ -124,7 +348,7 @@ public class SQLData {
 	public static  List<String[]> getOuletDetail(String id){
 		String sql = "SELECT so.\"OUTLET_ID\",so.\"OUTLET_NAME\", so.\"OUTLET_PHONE\", so.\"OUTLET_ADDRESS\",  st.\"TYPE_NAME\", st.\"TYPE_PERCENTAGE\" "
 				+"FROM \"SP_OUTLET\" so "
-				+"JOIN \"SP_TYPE_OUTLET\" st ON so.\"OUTLET_STATUS\" = st.\"TYPE_ID\" "
+				+"JOIN \"SP_TYPE_OUTLET\" st ON so.\"OUTLET_TYPE\" = st.\"TYPE_ID\" "
 				+"WHERE \"OUTLET_ID\" = '"+id+"'";
 		return execute(sql);
 	}

@@ -28,6 +28,7 @@ import id.git.db.DBEngine;
 import id.git.db.SQLData;
 import id.git.model.Dashboard;
 import id.git.model.Status;
+import id.git.model.WaModel;
 import id.git.service.DiscountsService;
 import id.git.util.Function;
 
@@ -35,6 +36,9 @@ public class TEST {
 
 	public static void main(String[] args) throws InterruptedException, ExecutionException, ParseException, SQLException {
 		// TODO Auto-generated method stub
+		
+		WaModel wa = SQLData.getWaParam();
+		System.out.println(wa.toString());
 //		System.out.println(args);
 //		GetAPIData gad = new GetAPIData();
 //		HashMap<String, String[]> ListCustomer = gad.GetCustomerDataAll();
@@ -187,7 +191,7 @@ public class TEST {
 		
 //		List<String[]> getDiscotunts = SQLData.getDiscountsAll();
 //		System.out.println(Arrays.asList(getDiscotunts.get(0)));
-		System.out.println("dari sini: "+ DiscountsService.getDiscountsID());
+//		System.out.println("dari sini: "+ DiscountsService.getDiscountsID());
 	}
 	
 

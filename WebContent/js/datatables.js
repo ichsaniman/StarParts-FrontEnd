@@ -39,7 +39,9 @@ $(document).ready(function () {
 //   $("#customerTable").DataTable();
 // });TransactionsTablediscountsTables
 $(document).ready(function () {
-  $("#TransactionsTable").DataTable({});
+  $("#TransactionsTable").DataTable({
+    ordering: false,
+  });
 });
 
 $(document).ready(function () {
