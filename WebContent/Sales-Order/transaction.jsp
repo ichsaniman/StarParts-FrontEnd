@@ -226,106 +226,6 @@
               <!-- <br> -->
               <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
                 </div> -->
-              <a class="nav-link mt-3" href="index.html" style="color: #ffffff">
-                <div class="sb-nav-link-icon">
-                  <i class="fas fa-tachometer-alt"></i>
-                </div>
-                Dashboard
-              </a>
-              <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
-                  Interface
-                </div> -->
-              <a
-                class="nav-link collapsed"
-                href="#"
-                data-bs-toggle="collapse"
-                data-bs-target="#admin"
-                aria-expanded="false"
-                aria-controls="collapseLayouts"
-                style="color: #ffffff"
-              >
-                <div class="sb-nav-link-icon">
-                  <i class="fas fa-user-friends"></i>
-                </div>
-                Administration
-                <div class="sb-sidenav-collapse-arrow">
-                  <i class="fas fa-angle-down"></i>
-                </div>
-              </a>
-              <div
-                class="collapse"
-                id="admin"
-                aria-labelledby="headingOne"
-                data-bs-parent="#sidenavAccordion"
-              >
-                <nav class="sb-sidenav-menu-nested nav">
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Generate PDF</a
-                  >
-                  <a class="nav-link" href="content.html" style="color: #ffffff"
-                    >Content Configuration</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Preview Sampling</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >User Management</a
-                  >
-                </nav>
-              </div>
-              <a
-                class="nav-link collapsed"
-                href="#"
-                data-bs-toggle="collapse"
-                data-bs-target="#estatement"
-                aria-expanded="false"
-                aria-controls="collapseLayouts"
-                style="color: #ffffff"
-              >
-                <div class="sb-nav-link-icon">
-                  <i class="fas fa-book"></i>
-                </div>
-                E-Statement
-                <div class="sb-sidenav-collapse-arrow">
-                  <i class="fas fa-angle-down"></i>
-                </div>
-              </a>
-              <div
-                class="collapse"
-                id="estatement"
-                aria-labelledby="headingOne"
-                data-bs-parent="#sidenavAccordion"
-              >
-                <nav class="sb-sidenav-menu-nested nav">
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Customers PDF Data</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-sidenav-light.html"
-                    style="color: #ffffff"
-                    >Send Email</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Email Report</a
-                  >
-                </nav>
-              </div>
               <a
                 class="nav-link collapsed"
                 href="#"
@@ -352,30 +252,19 @@
                 <nav class="sb-sidenav-menu-nested nav">
                   <a
                     class="nav-link"
-                    href="layout-static.html"
+                    href="${pageContext.request.contextPath}/Discounts"
                     style="color: #ffffff"
-                    >Black List Customer</a
+                    >Discounts Management</a
                   >
+                  
                   <a
-                    class="nav-link"
-                    href="layout-sidenav-light.html"
-                    style="color: #ffffff"
-                    >Discountss Management</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Approval Request</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Transactions Menu</a
-                  >
+                  class="nav-link"
+                  href="${pageContext.request.contextPath}/Transaction"
+                  style="color: #ffffff"
+                  >Transactions Menu</a
+                >
                 </nav>
-              </div>
+                </div>
             </div>
           </div>
           <div class="sb-sidenav-footer">

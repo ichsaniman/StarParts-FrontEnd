@@ -1,3 +1,8 @@
+<%@page import="java.util.Arrays"%>
+<%@page import="id.git.api.model.ResponseItemProductInfo"%>
+<%@page import="id.git.api.model.ResponseItemData"%>
+<%@page import="id.git.api.service.GetApiDataSpring"%>
+<%@page import="id.git.api.model.ResponseItem"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.util.ArrayList"%>
@@ -94,47 +99,8 @@
     <!-- <link rel="stylesheet" href="css/mdb.dark.min.css" /> -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mdb.min.css" />
     <script type="text/javascript">
-      function change(btn) {
-        let button = "btn btn-danger mt-2";
-        let buttonOutline = "btn btn-outline-danger mt-2";
-        var semua = document.getElementById("Semua");
-        var pending = document.getElementById("Pending");
-        var OnProgress = document.getElementById("OnProgress");
-        var success = document.getElementById("Success");
-
-        // console.log(semua.className);
-        console.log(btn.value);
-        switch (btn.value) {
-          case "Semua":
-            semua.className = button;
-            pending.className = buttonOutline;
-            OnProgress.className = buttonOutline;
-            success.className = buttonOutline;
-            break;
-
-          case "Pending":
-            pending.className = button;
-            OnProgress.className = buttonOutline;
-            success.className = buttonOutline;
-            semua.className = buttonOutline;
-
-            break;
-
-          case "On Progress":
-            OnProgress.className = button;
-            pending.className = buttonOutline;
-            success.className = buttonOutline;
-            semua.className = buttonOutline;
-            break;
-
-          case "Success":
-            success.className = button;
-            OnProgress.className = buttonOutline;
-            pending.className = buttonOutline;
-            semua.className = buttonOutline;
-            break;
-        }
-      }
+      
+      
     </script>
   </head>
 
@@ -222,106 +188,6 @@
               <!-- <br> -->
               <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
                 </div> -->
-              <a class="nav-link mt-3" href="index.html" style="color: #ffffff">
-                <div class="sb-nav-link-icon">
-                  <i class="fas fa-tachometer-alt"></i>
-                </div>
-                Dashboard
-              </a>
-              <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
-                  Interface
-                </div> -->
-              <a
-                class="nav-link collapsed"
-                href="#"
-                data-bs-toggle="collapse"
-                data-bs-target="#admin"
-                aria-expanded="false"
-                aria-controls="collapseLayouts"
-                style="color: #ffffff"
-              >
-                <div class="sb-nav-link-icon">
-                  <i class="fas fa-user-friends"></i>
-                </div>
-                Administration
-                <div class="sb-sidenav-collapse-arrow">
-                  <i class="fas fa-angle-down"></i>
-                </div>
-              </a>
-              <div
-                class="collapse"
-                id="admin"
-                aria-labelledby="headingOne"
-                data-bs-parent="#sidenavAccordion"
-              >
-                <nav class="sb-sidenav-menu-nested nav">
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Generate PDF</a
-                  >
-                  <a class="nav-link" href="content.html" style="color: #ffffff"
-                    >Content Configuration</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Preview Sampling</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >User Management</a
-                  >
-                </nav>
-              </div>
-              <a
-                class="nav-link collapsed"
-                href="#"
-                data-bs-toggle="collapse"
-                data-bs-target="#estatement"
-                aria-expanded="false"
-                aria-controls="collapseLayouts"
-                style="color: #ffffff"
-              >
-                <div class="sb-nav-link-icon">
-                  <i class="fas fa-book"></i>
-                </div>
-                E-Statement
-                <div class="sb-sidenav-collapse-arrow">
-                  <i class="fas fa-angle-down"></i>
-                </div>
-              </a>
-              <div
-                class="collapse"
-                id="estatement"
-                aria-labelledby="headingOne"
-                data-bs-parent="#sidenavAccordion"
-              >
-                <nav class="sb-sidenav-menu-nested nav">
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Customers PDF Data</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-sidenav-light.html"
-                    style="color: #ffffff"
-                    >Send Email</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Email Report</a
-                  >
-                </nav>
-              </div>
               <a
                 class="nav-link collapsed"
                 href="#"
@@ -348,30 +214,19 @@
                 <nav class="sb-sidenav-menu-nested nav">
                   <a
                     class="nav-link"
-                    href="layout-static.html"
+                    href="${pageContext.request.contextPath}/Discounts"
                     style="color: #ffffff"
-                    >Black List Customer</a
+                    >Discounts Management</a
                   >
+                  
                   <a
-                    class="nav-link"
-                    href="layout-sidenav-light.html"
-                    style="color: #ffffff"
-                    >Discountss Management</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Approval Request</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Transactions Menu</a
-                  >
+                  class="nav-link"
+                  href="${pageContext.request.contextPath}/Transaction"
+                  style="color: #ffffff"
+                  >Transactions Menu</a
+                >
                 </nav>
-              </div>
+                </div>
             </div>
           </div>
           <div class="sb-sidenav-footer">
@@ -433,13 +288,20 @@
                 <div class="col-md-3 ms-md-auto">
                   <div class="card mb-1">
                     <div class="card-body">
+                    <form action="${pageContext.request.contextPath}/DetailTransaction "method="post">
+                    <input type="text" name="orderId"  value=<%=id%> hidden>
+                      <%
+                      	if(getOrder[3].equals("Pending") || getOrder[3].equals("On Progress")){
+                      		out.print("<div class='row'>");
+                      		out.print("<button type='submit' name='prosses'>Prosses</button>");
+                      		out.print("</div>");
+                      		out.print("<br />");
+                      	}
+                      %>
                       <div class="row">
-                        <button>Prosses</button>
+                        <button type="submit" name="download">Download</button>
                       </div>
-                      <br />
-                      <div class="row">
-                        <button>Download</button>
-                      </div>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -476,7 +338,7 @@
                               <td><%=getOutletDetail[4] %> </td>
                             </tr>
                             <tr>
-                              <td>Discount Type</td>
+                              <td>Discount</td>
                               <td><%=getOutletDetail[5] %></td>
                             </tr>
                         </table>
@@ -537,11 +399,17 @@
                         <tbody>
                         	<%
                         		for (int it = 0; it < getItems.size(); it++){
+                        			System.out.println("masuk get item");
                         			String[]items = getItems.get(it);
-                        			Double itemNormalPrice = Double.valueOf(items[3]);
-                        			Double itemPcs = Double.valueOf(items[4]);
-                        			
-                        			int qty = Integer.valueOf(items[2]);
+                        			System.out.println(Arrays.asList(items));
+                        			ResponseItem ri = GetApiDataSpring.getItem(items[0]);
+                        			Double itemPcs = Double.valueOf(items[2]);
+                        			List<ResponseItemData> rid = ri.getData();
+                        			List<ResponseItemProductInfo> lripi = rid.get(0).getProductInfo();
+                        			ResponseItemProductInfo ripi = lripi.get(0);
+
+                        			Double itemNormalPrice = Double.valueOf(ripi.getPrice());
+                        			int qty = Integer.valueOf(items[1]);
                         			Double total = itemPcs * qty;
                         			int no = it+1;
                         			out.print("<tr>");
