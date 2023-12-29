@@ -8,7 +8,7 @@
     pageEncoding="ISO-8859-1"%>
 <%
 	try{
-		
+		List<String[]> getChat = SQLData.getChatList();
 		
 	
 %>
@@ -360,8 +360,111 @@
                             style="position: relative; height: 400px"
                           >
                             <!-- onclick="chatMessage(this)" -->
-                            <ul class="listChat list-unstyled mb-0">
-                            
+                            <ul class="list-unstyled mb-0">
+                            <%
+                            	for(int i = 0; i < getChat.size(); i++){
+                            		
+                            		List<String[]> lates = SQLData.getLatestChat(getChat.get(i)[0]);
+                            		String[] late = lates.get(0);
+                            		int no = SQLData.getCountChatNotRead(getChat.get(i)[0]);
+                            		List<String[]> dateChat = SQLData.getDateChat(getChat.get(i)[0]);
+                            		long unix = Long.parseLong(dateChat.get(0)[3]);
+                            		System.out.println(unix);
+                            		Instant instant = Instant.ofEpochSecond(unix);
+                            		Date date1 = Date.from(instant);
+                            		SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                            		System.out.println("Test format "+ sdf1.format(date1));
+                            		
+                            		
+                            		%>
+                            		<li class="p-2 border-bottom contact-item">
+                                <a
+                                  href="javascript:void(0)"
+                                  class="contact-link d-flex justify-content-between"
+                                >
+                                  <div class="d-flex flex-row">
+                                    <div>
+                                      <img
+                                        src="${pageContext.request.contextPath}/img/user-circle.svg"
+                                        alt="avatar"
+                                        class="d-flex align-self-center me-3"
+                                        width="60"
+                                      />
+                                      
+                                    </div>
+                                    <div class="pt-1">
+                                      <p class="fw-bold mb-0" id="nameContact">
+                                        <%=getChat.get(i)[0] %>
+                                      </p>
+                                      <p
+                                        class="small text-muted"
+                                        style="
+                                          max-width: 25.5ch;
+                                          overflow: hidden;
+                                          white-space: nowrap;
+                                          text-overflow: ellipsis;
+                                        "
+                                      >
+                                      <%
+                                      if(late[0].equals("Admin")){
+                                    	  int mC = Integer.valueOf(late[4]);
+                                    	  if(mC >= 0){
+                                    		  
+                                    	  
+                              			%>
+                              			<i class="fas fa-check-double"></i>
+											<%=late[4] %>
+                              			<%
+                                    	  }
+	                              		}else{
+	                              			String message = "";
+	                              			
+	                              			System.out.println("masuk else");
+	                              			System.out.println(late[2]);
+	                              			List<String[]> latestMessages = SQLData.getLatestMessage(late[2]);
+	                              			String[]mess = latestMessages.get(0);
+	                              			System.out.println(Arrays.asList(mess));
+	                              			if(mess[3].equalsIgnoreCase("text")){
+	                              				System.out.println("masuk if");
+	                              				out.print(latestMessages.get(0)[4]);
+	                              			}else if(mess[3].equalsIgnoreCase("document")){
+	                              				out.print("<i class='fas fa-file'></i>");
+	                              				out.print(" "+mess[7]);
+	                              			}else if(mess[3].equalsIgnoreCase("image")){
+	                              				out.print("<i class='far fa-image'></i>");
+	                              				out.print(" Image");
+	                              			}
+	                              		%>
+	                              		
+	                              		<%	
+	                              		}
+                                      %>
+                                        
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div class="pt-1">
+                                    <p class="small text-muted mb-1">
+                                      <%=sdf1.format(date1) %>
+                                    </p>
+                                    <%
+                                    	if(no >=0){
+                                    		%>
+                                    <span
+                                      class="badge bg-danger rounded-pill float-end"
+                                      ><%=no %></span
+                                    >
+                                    		
+                                    		<%
+                                    	}
+                                    %>
+                                  </div>
+                                </a>
+                              </li>
+                            		<% 
+                            	}
+                            %>
+                              
                             </ul>
                           </div>
                         </div>
