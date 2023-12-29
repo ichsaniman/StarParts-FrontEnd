@@ -154,8 +154,6 @@
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdown"
           >
-            
-            <li><hr class="dropdown-divider" /></li>
             <li><a class="dropdown-item" href="#!">Logout</a></li>
           </ul>
         </li>
@@ -180,6 +178,12 @@
                   <i class="fas fa-tachometer-alt"></i>
                 </div>
                 Dashboard
+              </a>
+              <a class="nav-link" href="${pageContext.request.contextPath}/LiveChat" style="color: #ffffff">
+                <div class="sb-nav-link-icon">
+                  <i class="fas fa-comments"></i>
+                </div>
+                Live Chat
               </a>
               <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
                 Interface
@@ -370,6 +374,7 @@
         <!-- </footer> -->
       </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
      <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"

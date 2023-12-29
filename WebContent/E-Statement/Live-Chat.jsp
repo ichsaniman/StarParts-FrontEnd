@@ -8,7 +8,9 @@
     pageEncoding="ISO-8859-1"%>
 <%
 	try{
-		List<String[]> getChat = SQLData.getChatList();
+		if(session.getAttribute("currentUser") !=null){
+			String current = session.getAttribute("currentUser").toString();
+			int role = SQLData.getUserRole(current); 
 		
 	
 %>
@@ -121,7 +123,7 @@
       >
         <div class="nav-item mt-2">
           <!-- <img src="img/spm.jpg" class="img-fluid" alt="" /> -->
-          <h5>Hi Admin!</h5>
+          <h5>Hi <%=current %>!</h5>
         </div>
       </div>
       <!-- Navbar-->
@@ -140,11 +142,8 @@
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdown"
           >
-            <li><a class="dropdown-item" href="#!">Settings</a></li>
-            <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
+            
+            
             <li><a class="dropdown-item" href="#!">Logout</a></li>
           </ul>
         </li>
@@ -163,20 +162,31 @@
               <!-- <br> -->
               <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
                 </div> -->
-              <a class="nav-link mt-3" href="index.html" style="color: #ffffff">
+              <a class="nav-link mt-3" href="${pageContext.request.contextPath}/Home" style="color: #ffffff">
                 <div class="sb-nav-link-icon">
                   <i class="fas fa-tachometer-alt"></i>
                 </div>
                 Dashboard
               </a>
+              <a class="nav-link" href="${pageContext.request.contextPath}/LiveChat" style="color: #ffffff">
+                <div class="sb-nav-link-icon">
+                  <i class="fas fa-comments"></i>
+                </div>
+                Live Chat
+              </a>
               <!-- <div class="sb-sidenav-menu-heading" style="color: #ffffff">
-                  Interface
-                </div> -->
+                Interface
+              </div> -->
+              <%
+              	if(role == 1){
+              		
+              	
+              %>
               <a
                 class="nav-link collapsed"
                 href="#"
                 data-bs-toggle="collapse"
-                data-bs-target="#admin"
+                data-bs-target="#collapseLayouts"
                 aria-expanded="false"
                 aria-controls="collapseLayouts"
                 style="color: #ffffff"
@@ -191,39 +201,32 @@
               </a>
               <div
                 class="collapse"
-                id="admin"
+                id="collapseLayouts"
                 aria-labelledby="headingOne"
                 data-bs-parent="#sidenavAccordion"
               >
                 <nav class="sb-sidenav-menu-nested nav">
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
+                  <a class="nav-link" href="${pageContext.request.contextPath}/GeneratePDF" style="color: #ffffff"
                     >Generate PDF</a
                   >
-                  <a class="nav-link" href="content.html" style="color: #ffffff"
+                  <a
+                    class="nav-link"
+                    href="${pageContext.request.contextPath}/Content"
+                    style="color: #ffffff"
                     >Content Configuration</a
                   >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Preview Sampling</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
+                  
+                  <a class="nav-link" href="administration\user-management.jsp" style="color: #ffffff"
                     >User Management</a
                   >
                 </nav>
               </div>
+              
               <a
                 class="nav-link collapsed"
                 href="#"
                 data-bs-toggle="collapse"
-                data-bs-target="#estatement"
+                data-bs-target="#collapse"
                 aria-expanded="false"
                 aria-controls="collapseLayouts"
                 style="color: #ffffff"
@@ -238,87 +241,35 @@
               </a>
               <div
                 class="collapse"
-                id="estatement"
+                id="collapse"
                 aria-labelledby="headingOne"
                 data-bs-parent="#sidenavAccordion"
               >
                 <nav class="sb-sidenav-menu-nested nav">
                   <a
                     class="nav-link"
-                    href="layout-static.html"
+                    href="E-Statement\cutomer-pdf-data.jsp"
                     style="color: #ffffff"
                     >Customers PDF Data</a
                   >
                   <a
                     class="nav-link"
-                    href="layout-sidenav-light.html"
+                    href="E-Statement\Send-WA.jsp"
+
                     style="color: #ffffff"
-                    >Send Email</a
+                    >Send WhatsApp</a
                   >
                   <a
                     class="nav-link"
-                    href="layout-static.html"
+                    href="E-Statement\history-report.jsp"
                     style="color: #ffffff"
-                    >Email Report</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="Live-Chat.jsp"
-                    style="color: #ffffff"
-                    >Live Chat</a
+                    >WhatsApp Report</a
                   >
                 </nav>
               </div>
-              <a
-                class="nav-link collapsed"
-                href="#"
-                data-bs-toggle="collapse"
-                data-bs-target="#salesOrder"
-                aria-expanded="false"
-                aria-controls="collapseLayouts"
-                style="color: #ffffff"
-              >
-                <div class="sb-nav-link-icon">
-                  <i class="fas fa-cart-plus"></i>
-                </div>
-                Sales Orders
-                <div class="sb-sidenav-collapse-arrow">
-                  <i class="fas fa-angle-down"></i>
-                </div>
-              </a>
-              <div
-                class="collapse"
-                id="salesOrder"
-                aria-labelledby="headingOne"
-                data-bs-parent="#sidenavAccordion"
-              >
-                <nav class="sb-sidenav-menu-nested nav">
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Black List Customer</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-sidenav-light.html"
-                    style="color: #ffffff"
-                    >Discountss Management</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Approval Request</a
-                  >
-                  <a
-                    class="nav-link"
-                    href="layout-static.html"
-                    style="color: #ffffff"
-                    >Transactions Menu</a
-                  >
-                </nav>
-              </div>
+              <%
+              	}
+             	%>
             </div>
           </div>
           <div class="sb-sidenav-footer">
@@ -366,111 +317,8 @@
                             style="position: relative; height: 400px"
                           >
                             <!-- onclick="chatMessage(this)" -->
-                            <ul class="list-unstyled mb-0">
-                            <%
-                            	for(int i = 0; i < getChat.size(); i++){
-                            		
-                            		List<String[]> lates = SQLData.getLatestChat(getChat.get(i)[0]);
-                            		String[] late = lates.get(0);
-                            		int no = SQLData.getCountChatNotRead(getChat.get(i)[0]);
-                            		List<String[]> dateChat = SQLData.getDateChat(getChat.get(i)[0]);
-                            		long unix = Long.parseLong(dateChat.get(0)[3]);
-                            		System.out.println(unix);
-                            		Instant instant = Instant.ofEpochSecond(unix);
-                            		Date date1 = Date.from(instant);
-                            		SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
-                            		System.out.println("Test format "+ sdf1.format(date1));
-                            		
-                            		
-                            		%>
-                            		<li class="p-2 border-bottom contact-item">
-                                <a
-                                  href="javascript:void(0)"
-                                  class="contact-link d-flex justify-content-between"
-                                >
-                                  <div class="d-flex flex-row">
-                                    <div>
-                                      <img
-                                        src="${pageContext.request.contextPath}/img/user-circle.svg"
-                                        alt="avatar"
-                                        class="d-flex align-self-center me-3"
-                                        width="60"
-                                      />
-                                      
-                                    </div>
-                                    <div class="pt-1">
-                                      <p class="fw-bold mb-0" id="nameContact">
-                                        <%=getChat.get(i)[0] %>
-                                      </p>
-                                      <p
-                                        class="small text-muted"
-                                        style="
-                                          max-width: 25.5ch;
-                                          overflow: hidden;
-                                          white-space: nowrap;
-                                          text-overflow: ellipsis;
-                                        "
-                                      >
-                                      <%
-                                      if(late[0].equals("Admin")){
-                                    	  int mC = Integer.valueOf(late[4]);
-                                    	  if(mC >= 0){
-                                    		  
-                                    	  
-                              			%>
-                              			<i class="fas fa-check-double"></i>
-											<%=late[4] %>
-                              			<%
-                                    	  }
-	                              		}else{
-	                              			String message = "";
-	                              			
-	                              			System.out.println("masuk else");
-	                              			System.out.println(late[2]);
-	                              			List<String[]> latestMessages = SQLData.getLatestMessage(late[2]);
-	                              			String[]mess = latestMessages.get(0);
-	                              			System.out.println(Arrays.asList(mess));
-	                              			if(mess[3].equalsIgnoreCase("text")){
-	                              				System.out.println("masuk if");
-	                              				out.print(latestMessages.get(0)[4]);
-	                              			}else if(mess[3].equalsIgnoreCase("document")){
-	                              				out.print("<i class='fas fa-file'></i>");
-	                              				out.print(" "+mess[7]);
-	                              			}else if(mess[3].equalsIgnoreCase("image")){
-	                              				out.print("<i class='far fa-image'></i>");
-	                              				out.print(" Image");
-	                              			}
-	                              		%>
-	                              		
-	                              		<%	
-	                              		}
-                                      %>
-                                        
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div class="pt-1">
-                                    <p class="small text-muted mb-1">
-                                      <%=sdf1.format(date1) %>
-                                    </p>
-                                    <%
-                                    	if(no >=0){
-                                    		%>
-                                    <span
-                                      class="badge bg-danger rounded-pill float-end"
-                                      ><%=no %></span
-                                    >
-                                    		
-                                    		<%
-                                    	}
-                                    %>
-                                  </div>
-                                </a>
-                              </li>
-                            		<% 
-                            	}
-                            %>
-                              
+                            <ul class="listChat list-unstyled mb-0">
+                            
                             </ul>
                           </div>
                         </div>
@@ -558,7 +406,12 @@
 
 
 <%
-	}catch(Exception e){
-		e.printStackTrace();
-	}
+ 		}else{
+ 			session.invalidate();
+ 			response.sendRedirect("/StarParts/");
+ 		}
+ 	}catch(Exception e ){
+ 		e.printStackTrace();
+ 		System.out.println(e.getMessage());
+ 	}
 %>
