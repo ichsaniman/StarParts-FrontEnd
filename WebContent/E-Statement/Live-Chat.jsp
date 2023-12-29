@@ -255,6 +255,7 @@
                   <a
                     class="nav-link"
                     href="E-Statement\Send-WA.jsp"
+
                     style="color: #ffffff"
                     >Send WhatsApp</a
                   >
