@@ -261,6 +261,12 @@
                     style="color: #ffffff"
                     >Email Report</a
                   >
+                  <a
+                    class="nav-link"
+                    href="Live-Chat.jsp"
+                    style="color: #ffffff"
+                    >Live Chat</a
+                  >
                 </nav>
               </div>
               <a
