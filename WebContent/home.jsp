@@ -271,6 +271,12 @@
                     style="color: #ffffff"
                     >WhatsApp Report</a
                   >
+                  <a
+                    class="nav-link"
+                    href="E-Statement\Live-Chat.jsp"
+                    style="color: #ffffff"
+                    >Live Chat</a
+                  >
                 </nav>
               </div>
               <%
