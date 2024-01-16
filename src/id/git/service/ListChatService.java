@@ -24,19 +24,26 @@ public class ListChatService {
 		List<ListChatDataModel> data = new ArrayList<ListChatDataModel>();
 		List<String[]> getChat = SQLData.getChatList();
 		for(int i = 0; i < getChat.size(); i++){
-			ListChatDataModel lMain = new ListChatDataModel();
+			ListChatDataModel lMain = new ListChatDataModel(); 
+			List<String[]> getOn = SQLData.getOutletName(getChat.get(i)[0]);
+			System.out.println("ayam goreng");
+
+    		System.out.println(getOn.get(0)[1]);
 			List<String[]> lates = SQLData.getLatestChat(getChat.get(i)[0]);
 			String[] late = lates.get(0);
     		int no = SQLData.getCountChatNotRead(getChat.get(i)[0]);
     		List<String[]> dateChat = SQLData.getDateChat(getChat.get(i)[0]);
-    		System.out.println(getChat.get(0)[1]);
+    		System.out.println(getChat.get(0)[0]);
     		long unix = Long.parseLong(dateChat.get(0)[3]);
     		Instant instant = Instant.ofEpochSecond(unix);
     		Date date1 = Date.from(instant);
     		SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+    		lMain.setId(getOn.get(0)[0]);
+    		lMain.setName(getOn.get(0)[1]);
     		lMain.setPhone(getChat.get(i)[0]);
     		lMain.setFrom(late[0]);
     		lMain.setDate(sdf1.format(date1));
+    		
     		
     		 if(late[0].equals("Admin")){
     			 lMain.setMessages("<i class='fas fa-check-double'></i> "+late[4]);

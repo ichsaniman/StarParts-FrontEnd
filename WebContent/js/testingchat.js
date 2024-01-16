@@ -51,7 +51,8 @@ var socket = new WebSocket("ws://" + location.host + "/StarParts/listChat");
 +'        />'
 +'      </div>'
 +'      <div class="pt-1">'
-+'        <p class="fw-bold mb-0" id="nameContact">'+data[i].phone+'</p>'
++'        <p style="display: none;" id="phoneContact">'+data[i].phone+'</p>'
++'        <p class="fw-bold mb-0" id="nameContact">'+data[i].id+' - '+data[i].name+'</p>'
 +'        <p'
 +'          class="small text-muted"'
 +'          style="'
@@ -84,6 +85,7 @@ var socket = new WebSocket("ws://" + location.host + "/StarParts/listChat");
 
 $(".listChat").on("click", ".contact-link", function() {
     // Retrieve the data associated with the clicked contact-link
+    const phoneContact = $(this).find("#phoneContact").text();
     const nameContact = $(this).find("#nameContact").text();
     // You can add more data retrieval based on your HTML structure
  const chat = document.querySelector(".chat");
@@ -93,7 +95,7 @@ $(".listChat").on("click", ".contact-link", function() {
 	$.ajax({
 		method:"GET",
 		url:"/StarParts/Chat",
-		data:{phone:nameContact},
+		data:{phone:phoneContact},
 		success: function(res){
 			const{data} = res;
 			console.log(data);

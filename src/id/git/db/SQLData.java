@@ -142,7 +142,13 @@ public class SQLData {
 				+"ORDER BY \"MESSAGE_LOG_TIMESTAMP\" ASC";
 		return execute(sql);
 	}
-	
+//	get outlet name
+	public static List<String[]> getOutletName(String phone){
+		String sql = "SELECT \"OUTLET_ID\" , \"OUTLET_NAME\" "
+				+"FROM \"SP_OUTLET\" "
+				+"WHERE \"OUTLET_PHONE\" = '"+phone+"'";
+		return execute(sql);
+	}
 	public static List<String[]> getLatestMessage(String id){
 		String sql ="SELECT * FROM \"SP_MESSAGES\" WHERE \"MESSAGE_ID\" = '"+id+"'";
 		return execute(sql);
