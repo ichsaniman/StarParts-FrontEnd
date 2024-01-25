@@ -298,20 +298,18 @@
                         <div class="p-3">
                           <div class="input-group rounded mb-3">
                             <input
+                              id="searchInput"
                               type="search"
                               class="form-control rounded"
                               placeholder="Search"
                               aria-label="Search"
                               aria-describedby="search-addon"
                             />
-                            <span
-                              class="input-group-text border-0"
-                              id="search-addon"
-                            >
-                              <i class="fas fa-search"></i>
-                            </span>
+                            <span class="input-group-text border-0" id="search-addon">
+        						<i class="fas fa-search"></i>
+    						</span>
                           </div>
-
+                          
                           <div
                             class="overflow-auto"
                             style="position: relative; height: 400px"
@@ -399,6 +397,29 @@
 
     <!-- MDB -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/mdb.min.js"></script>
+    
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mdb.min.js"></script>
+
+	 <script type="text/javascript">
+    document.getElementById("searchInput").addEventListener("input", function () {
+        performSearch();
+    });
+
+    function performSearch() {
+        var searchText = document.getElementById("searchInput").value.toLowerCase();
+
+        $(".listChat li").each(function () {
+            var messageText = $(this).text().toLowerCase();
+
+            if (messageText.indexOf(searchText) === -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+
+    }
+</script>
 
     <!-- Custom scripts -->
   </body>

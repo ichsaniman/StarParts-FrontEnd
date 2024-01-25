@@ -69,6 +69,93 @@ public class SQLData {
 			String sql = "INSERT INTO \"SP_MESSAGE_LOG\" (\"MESSAGE_LOG_ID\", \"MESSAGE_LOG_FROM\", \"MESSAGE_LOG_TO\", \"MESSAGE_LOG_STATUS\", \"MESSAGE_LOG_TIMESTAMP\", \"MESSAGE_LOG_MESSAGES\") "
 					+ "VALUES('"+id+"', 'Admin', '"+to+"', 'Sended', "+unix+", '"+messages+"')";
 			// log.info("sql=" + sql);
+			System.out.println("ini sql "+sql);
+			ps = conn.prepareStatement(sql);
+			int i = ps.executeUpdate();
+			if (i > 0) {
+				result = true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public static List<String[]> getInvoiceInformation(int logId) {
+        List<String[]> invoiceInfoList = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBEngine.getConnection();
+
+            String sql = "SELECT \"CUSTOMER_ID\", \"LOG_GENERATE_DATE\", \"LOG_STATUS\", \"LOG_MESSAGE\", \"LOG_PATH_PDF\", \"LOG_PERIOD\", \"LOG_INVOICE\" "
+                    + "FROM \"SP_LOG\" WHERE \"LOG_ID\" = ?";
+            
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, logId);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String customerId = rs.getString("CUSTOMER_ID");
+                String generateDate = rs.getString("LOG_GENERATE_DATE");
+                String status = rs.getString("LOG_STATUS");
+                String message = rs.getString("LOG_MESSAGE");
+                String pdfPath = rs.getString("LOG_PATH_PDF");
+                String period = rs.getString("LOG_PERIOD");
+                String invoice = rs.getString("LOG_INVOICE");
+
+                String[] invoiceInfo = {customerId, generateDate, status, message, pdfPath, period, invoice};
+                invoiceInfoList.add(invoiceInfo);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return invoiceInfoList;
+    }
+	
+	public static boolean insertLogDocument(String id, String to, String path, long unix, String filename, String caption) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DBEngine.getConnection();
+
+			String sql = "INSERT INTO \"SP_MESSAGES\" (\"MESSAGE_ID\", \"MESSAGE_FROM\", \"MESSAGE_TO\", \"MESSAGE_PATH\", \"MESSAGE_TIMESTAMP\", \"MESSAGE_FILENAME\", \"MESSAGE_CAPTION\", \"MESSAGE_TYPE\") "
+					+ "VALUES('"+id+"', 'Admin', '"+to+"', '"+path+"', "+unix+", '"+filename+"', '"+caption+"', 'document')";
 			System.out.println(sql);
 			ps = conn.prepareStatement(sql);
 			int i = ps.executeUpdate();
@@ -95,6 +182,7 @@ public class SQLData {
 		}
 		return result;
 	}
+	
 	public static WaModel getWaParam() {
 		WaModel wa = new WaModel();
 		Connection conn = DBEngine.getConnection();

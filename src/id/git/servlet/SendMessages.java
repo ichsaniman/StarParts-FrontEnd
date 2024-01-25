@@ -11,45 +11,49 @@ import javax.servlet.http.HttpServletResponse;
 
 import id.git.api.service.SendWa;
 
-/**
- * Servlet implementation class SendMessages
- */
 @WebServlet("/SendMessages")
 public class SendMessages extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public SendMessages() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		System.out.println(request.getParameter("messages"));
-		System.out.println(request.getParameter("phone"));
-		String msg = request.getParameter("messages");
-		String phone = request.getParameter("phone");
-		SendWa wa = new SendWa();
-		
-//		System.out.println(unix);
-		boolean result = wa.sendWa(phone, msg);
-		System.out.println(result);
-		//		doGet(request, response);
-	}
+	
+//	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		// TODO Auto-generated method stub
+//		
+//		System.out.println(request.getParameter("messages"));
+//		System.out.println(request.getParameter("phone"));
+//		String msg = request.getParameter("messages");
+//		String phone = request.getParameter("phone");
+//		SendWa wa = new SendWa();
+//		
+////		System.out.println(unix);
+//		boolean result = wa.sendWa(phone, msg);
+//		System.out.println(result);
+//		//		doGet(request, response);
+//	}
+	
+	 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	        String messageType = request.getParameter("messageType");
+	        String phone = request.getParameter("phone");
+	        SendWa wa = new SendWa();
+	        
+	        if (messageType.equals("text")) {
+	            String msg = request.getParameter("messages");
+	            boolean result = wa.sendWa(phone, msg);
+	            System.out.println("text "+result);
+	        } else if (messageType.equals("document")) {
+	            String path = request.getParameter("path");
+	            String filename = request.getParameter("fileName");
+	            String caption = request.getParameter("caption");
+	            boolean result = wa.sendDocument(phone, path, filename, caption);
+	            System.out.println("document" + result);
+	        }
+	    }
 
 }

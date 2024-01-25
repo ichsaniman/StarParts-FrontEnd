@@ -3,6 +3,7 @@ package id.git.service;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,11 +27,12 @@ public class ListChatService {
 		for(int i = 0; i < getChat.size(); i++){
 			ListChatDataModel lMain = new ListChatDataModel(); 
 			List<String[]> getOn = SQLData.getOutletName(getChat.get(i)[0]);
-			System.out.println("ayam goreng");
+//			System.out.println("ayam goreng");
 
-    		System.out.println(getOn.get(0)[1]);
+    		System.out.println("outlet name: "+getOn.get(0)[1]);
 			List<String[]> lates = SQLData.getLatestChat(getChat.get(i)[0]);
 			String[] late = lates.get(0);
+			System.out.println("lates "+ Arrays.asList(late));
     		int no = SQLData.getCountChatNotRead(getChat.get(i)[0]);
     		List<String[]> dateChat = SQLData.getDateChat(getChat.get(i)[0]);
     		System.out.println(getChat.get(0)[0]);
@@ -45,14 +47,16 @@ public class ListChatService {
     		lMain.setDate(sdf1.format(date1));
     		
     		
-    		 if(late[0].equals("Admin")){
-    			 lMain.setMessages("<i class='fas fa-check-double'></i> "+late[4]);
-         	}else{
+//    		 if(late[0].equals("Admin")){
+//    			 lMain.setMessages("<i class='fas fa-check-double'></i> "+late[4]);
+//         	}else{
       			
       			System.out.println("masuk else");
       			System.out.println(late[2]);
       			List<String[]> latestMessages = SQLData.getLatestMessage(late[2]);
       			String[]mess = latestMessages.get(0);
+      			System.out.println("Ini isi array"+Arrays.asList(mess));
+      			System.out.println(latestMessages.get(0)[4]);
       			if(mess[3].equalsIgnoreCase("text")){
       				System.out.println("masuk if");
       				lMain.setMessages( latestMessages.get(0)[4]);
@@ -64,8 +68,12 @@ public class ListChatService {
       			
       			if(no >= 0) {
       				lMain.setCount("<span class='badge bg-danger rounded-pill float-end'>"+no+"</span>");
-      			}
+//      			}
       		}
+      			if(late[0].equals("Admin")) {
+      				String tmp = lMain.getMessages();
+      				lMain.setMessages("<i class='fas fa-check-double'></i> "+tmp);
+      			}
     		 data.add(lMain);
     		 
 		}

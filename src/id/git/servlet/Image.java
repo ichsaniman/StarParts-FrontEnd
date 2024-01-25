@@ -36,7 +36,7 @@ public class Image extends HttpServlet {
         // Get the image file path based on the requested URL
         String imageFileName = request.getPathInfo().substring(1); // Remove leading slash
         System.out.println(imageFileName);
-        String imagePath = "D:/KERJABLOK/StarParts/issue/" + imageFileName;
+        String imagePath = "/opt/mediaWa/" + imageFileName;
         		
 
         // Read the image file

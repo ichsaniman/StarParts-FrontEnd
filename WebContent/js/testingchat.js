@@ -104,6 +104,7 @@ $(".listChat").on("click", ".contact-link", function() {
 				let from = data[i].from;
 				if(from =='Admin'){
 					console.log("Masuk admin");
+					
 					chatHtml+="<div class='d-flex flex-row justify-content-end'>"
 					+"<div>"
 					+"<p class='small p-2 ms-3 mb-1 rounded-3'"
@@ -247,7 +248,7 @@ $(".listChat").on("click", ".contact-link", function() {
 			"</div> " +
 		    "<footer>" +
 		    "<div class='text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2'>" +
-			"<input type='hidden' name='phone' id='phone' value='"+nameContact+"' />"+
+			"<input type='hidden' name='phone' id='phone' value='"+phoneContact+"' />"+
 			"<input type='text' class='sendMessage form-control form-control-lg' id='exampleFormControlInput2' name='messages' placeholder='Type message' />" +
 		    "<a type='submit' class='ms-3' href='#!' name='sbmt' ><i class='fas fa-paper-plane'></i></a> " +
 			"</div>" +

@@ -37,7 +37,7 @@ public class DownloadImage extends HttpServlet {
 //		String imageFileName = request.getParameter("path");
 		String imageFileName = request.getPathInfo().substring(1);
 		System.out.println(imageFileName);
-		 String imagePath ="D:/KERJABLOK/StarParts/issue/" + imageFileName;
+		String imagePath ="/opt/mediaWa/" + imageFileName;
 		 File file = new File(imagePath);
 		 OutputStream out = response.getOutputStream();
 			response.setContentType("APPLICATION/OCTET-STREAM");
