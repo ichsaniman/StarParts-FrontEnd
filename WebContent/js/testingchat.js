@@ -10,7 +10,7 @@ var port = window.location.port;
 // Combine the hostname and port to get the full domain with port
 var domainWithPort = hostname + (port ? ':' + port : '');
 
-var fullUrl = protocol+"//"+domainWithPort+"/StarParts/Image/"
+var fullUrl = protocol+"//"+domainWithPort+"/StarParts/Image"
 // Function to fetch and update chat messages
 var listChatHtml = "";
 var socket = new WebSocket("ws://" + location.host + "/StarParts/listChat");
@@ -104,7 +104,7 @@ $(".listChat").on("click", ".contact-link", function() {
 				let from = data[i].from;
 				if(from =='Admin'){
 					console.log("Masuk admin");
-					
+					if(data[i].type === 'text'){
 					chatHtml+="<div class='d-flex flex-row justify-content-end'>"
 					+"<div>"
 					+"<p class='small p-2 ms-3 mb-1 rounded-3'"
@@ -116,6 +116,55 @@ $(".listChat").on("click", ".contact-link", function() {
 					+"</p>"
 					+"</div>"
 					+"</div>";
+					} else if(data[i].type ==='document'){
+						if(data[i].caption ==='null'){
+							chatHtml+="<div class='d-flex flex-row justify-content-end'>"
+					+"<div>"
+					+"<p class='small p-2 ms-3 mb-1 rounded-3'"
+					+"style='background-color: #f5f6f7;max-width: 400px;overflow-wrap: break-word;white-space: wrap;hyphens: auto;'>"
+					+"<i class='fas fa-file fa-lg'></i>"
+					+data[i].filename
+					+"</p>"
+					+"<div class='row'>"
+					+"<div class='col-sm-5 mx-auto'>"
+					+`<form action="/StarParts/DownloadImage${data[i].path}" method='post'>`
+					+"<button type='submit' class='btn btn-info'> Download </button>"
+					+"</form>"
+					+"</div>"
+					+"</div>"
+					+"<p class='small ms-3 mb-3 rounded-3 text-muted float-start'>"
+					+data[i].date
+					+"</p>"
+					+"</div>"
+					+"</div>";	
+						}else{
+							chatHtml+="<div class='d-flex flex-row justify-content-end'>"
+					+"<div>"
+					+"<p class='small p-2 ms-3 mb-1 rounded-3'"
+					+"style='background-color: #f5f6f7;max-width: 400px;overflow-wrap: break-word;white-space: wrap;hyphens: auto;'>"
+					+"<i class='fas fa-file fa-lg'></i>"
+					+" "+ data[i].filename
+					+"</p>"
+					+"<p class='small p-2 ms-3 mb-1 rounded-3'"
+					+"style='background-color: #f5f6f7;max-width: 400px;overflow-wrap: break-word;white-space: wrap;hyphens: auto;'>"
+					+"<i class='fas fa-file fa-lg'></i>"
+					+data[i].caption
+					+"</p>"
+					+"<div class='row'>"
+					+"<div class='col-sm-5 mx-auto'>"
+					+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
+					+"<button type='submit' class='btn btn-info'> Download </button>"
+					+"</form>"
+					+"</div>"
+					+"</div>"
+					+"<p class='small ms-3 mb-3 rounded-3 text-muted float-start'>"
+					+data[i].date
+					+"</p>"
+					+"</div>"
+	
+					+"</div>";	
+						}
+					}
 				}else{
 					if(data[i].type === 'text'){
 						console.log("masuk text");
@@ -147,7 +196,7 @@ $(".listChat").on("click", ".contact-link", function() {
 						+"<br />"
 						+"<div class='row'>"
 						+"<div class='col-sm-5 mx-auto'>"
-						+"<form action='/StarParts/DownloadImage/"+data[i].path+"' method='post'>"
+						+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
 						+"<button type='submit' class='btn btn-info'> Download </button>"
 						+"</form>"
 						+"</div>"
@@ -172,7 +221,7 @@ $(".listChat").on("click", ".contact-link", function() {
 						+"</p>"
 						+"<div class='row'>"
 						+"<div class='col-sm-5 mx-auto'>"
-						+"<form action='/StarParts/DownloadImage/"+data[i].path+"' method='post'>"
+						+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
 						+"<button type='submit' class='btn btn-info'> Download </button>"
 						+"</form>"
 						+"</div>"
@@ -195,7 +244,7 @@ $(".listChat").on("click", ".contact-link", function() {
 					+"</p>"
 					+"<div class='row'>"
 					+"<div class='col-sm-5 mx-auto'>"
-					+"<form action='/StarParts/DownloadImage/"+data[i].path+"' method='post'>"
+					+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
 					+"<button type='submit' class='btn btn-info'> Download </button>"
 					+"</form>"
 					+"</div>"
@@ -220,7 +269,7 @@ $(".listChat").on("click", ".contact-link", function() {
 					+"</p>"
 					+"<div class='row'>"
 					+"<div class='col-sm-5 mx-auto'>"
-					+"<form action='/StarParts/DownloadImage/"+data[i].path+"' method='post'>"
+					+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
 					+"<button type='submit' class='btn btn-info'> Download </button>"
 					+"</form>"
 					+"</div>"
@@ -326,7 +375,7 @@ console.log(container.querySelector(".contact-profile-header"));
 						+"<br />"
 						+"<div class='row'>"
 						+"<div class='col-sm-5 mx-auto'>"
-						+"<form action='/StarParts/DownloadImage/"+data[i].path+"' method='post'>"
+						+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
 						+"<button type='submit' class='btn btn-info'> Download </button>"
 						+"</form>"
 						+"</div>"
@@ -351,7 +400,7 @@ console.log(container.querySelector(".contact-profile-header"));
 						+"</p>"
 						+"<div class='row'>"
 						+"<div class='col-sm-5 mx-auto'>"
-						+"<form action='/StarParts/DownloadImage/"+data[i].path+"' method='post'>"
+						+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
 						+"<button type='submit' class='btn btn-info'> Download </button>"
 						+"</form>"
 						+"</div>"
@@ -430,6 +479,7 @@ console.log('Domain with Port: ' + protocol+ domainWithPort);
 				let from = data[i].from;
 				if(from =='Admin'){
 					console.log("Masuk admin");
+					if(data[i].type === 'text'){
 					chatHtml+="<div class='d-flex flex-row justify-content-end'>"
 					+"<div>"
 					+"<p class='small p-2 ms-3 mb-1 rounded-3'"
@@ -441,6 +491,55 @@ console.log('Domain with Port: ' + protocol+ domainWithPort);
 					+"</p>"
 					+"</div>"
 					+"</div>";
+					} else if(data[i].type ==='document'){
+						if(data[i].caption ==='null'){
+							chatHtml+="<div class='d-flex flex-row justify-content-end'>"
+					+"<div>"
+					+"<p class='small p-2 ms-3 mb-1 rounded-3'"
+					+"style='background-color: #f5f6f7;max-width: 400px;overflow-wrap: break-word;white-space: wrap;hyphens: auto;'>"
+					+"<i class='fas fa-file fa-lg'></i>"
+					+data[i].filename
+					+"</p>"
+					+"<div class='row'>"
+					+"<div class='col-sm-5 mx-auto'>"
+					+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
+					+"<button type='submit' class='btn btn-info'> Download </button>"
+					+"</form>"
+					+"</div>"
+					+"</div>"
+					+"<p class='small ms-3 mb-3 rounded-3 text-muted float-start'>"
+					+data[i].date
+					+"</p>"
+					+"</div>"
+					+"</div>";	
+						}else{
+							chatHtml+="<div class='d-flex flex-row justify-content-end'>"
+					+"<div>"
+					+"<p class='small p-2 ms-3 mb-1 rounded-3'"
+					+"style='background-color: #f5f6f7;max-width: 400px;overflow-wrap: break-word;white-space: wrap;hyphens: auto;'>"
+					+"<i class='fas fa-file fa-lg'></i>"
+					+" "+ data[i].filename
+					+"</p>"
+					+"<p class='small p-2 ms-3 mb-1 rounded-3'"
+					+"style='background-color: #f5f6f7;max-width: 400px;overflow-wrap: break-word;white-space: wrap;hyphens: auto;'>"
+					+"<i class='fas fa-file fa-lg'></i>"
+					+data[i].caption
+					+"</p>"
+					+"<div class='row'>"
+					+"<div class='col-sm-5 mx-auto'>"
+					+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
+					+"<button type='submit' class='btn btn-info'> Download </button>"
+					+"</form>"
+					+"</div>"
+					+"</div>"
+					+"<p class='small ms-3 mb-3 rounded-3 text-muted float-start'>"
+					+data[i].date
+					+"</p>"
+					+"</div>"
+	
+					+"</div>";	
+						}
+					}
 				}else{
 					if(data[i].type === 'text'){
 						console.log("masuk text");
@@ -472,7 +571,7 @@ console.log('Domain with Port: ' + protocol+ domainWithPort);
 						+"<br />"
 						+"<div class='row'>"
 						+"<div class='col-sm-5 mx-auto'>"
-						+"<form action='/StarParts/DownloadImage/"+data[i].path+"' method='post'>"
+						+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
 						+"<button type='submit' class='btn btn-info'> Download </button>"
 						+"</form>"
 						+"</div>"
@@ -497,7 +596,7 @@ console.log('Domain with Port: ' + protocol+ domainWithPort);
 						+"</p>"
 						+"<div class='row'>"
 						+"<div class='col-sm-5 mx-auto'>"
-						+"<form action='/StarParts/DownloadImage/"+data[i].path+"' method='post'>"
+						+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
 						+"<button type='submit' class='btn btn-info'> Download </button>"
 						+"</form>"
 						+"</div>"
@@ -520,7 +619,7 @@ console.log('Domain with Port: ' + protocol+ domainWithPort);
 					+"</p>"
 					+"<div class='row'>"
 					+"<div class='col-sm-5 mx-auto'>"
-					+"<form action='/StarParts/DownloadImage/"+data[i].path+"' method='post'>"
+					+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
 					+"<button type='submit' class='btn btn-info'> Download </button>"
 					+"</form>"
 					+"</div>"
@@ -545,7 +644,7 @@ console.log('Domain with Port: ' + protocol+ domainWithPort);
 					+"</p>"
 					+"<div class='row'>"
 					+"<div class='col-sm-5 mx-auto'>"
-					+"<form action='/StarParts/DownloadImage/"+data[i].path+"' method='post'>"
+					+"<form action='/StarParts/DownloadImage"+data[i].path+"' method='post'>"
 					+"<button type='submit' class='btn btn-info'> Download </button>"
 					+"</form>"
 					+"</div>"
@@ -625,10 +724,3 @@ $(".sendMessage").val("");
 // Set interval to call the function every 5 seconds (adjust as needed)
 //setInterval(updateChat, 5000); // 5000 milliseconds = 5 seconds
 });
-
-
-
-
-
-
-

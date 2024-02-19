@@ -14,7 +14,7 @@
     try{
     	if(session.getAttribute("currentUser") !=null){
     		String current = session.getAttribute("currentUser").toString();
-    		System.out.println("cek user: "+current);
+    		//System.out.println("cek user: "+current);
     	GetAPIData gad = new GetAPIData();
     	HashMap<String,String[]> ListCustomer = new HashMap<>(); 
     	//ListCustomer = gad.GetCustomerDataAll();

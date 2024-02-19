@@ -369,11 +369,11 @@
                             		int no = SQLData.getCountChatNotRead(getChat.get(i)[0]);
                             		List<String[]> dateChat = SQLData.getDateChat(getChat.get(i)[0]);
                             		long unix = Long.parseLong(dateChat.get(0)[3]);
-                            		System.out.println(unix);
+                            		//System.out.println(unix);
                             		Instant instant = Instant.ofEpochSecond(unix);
                             		Date date1 = Date.from(instant);
                             		SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
-                            		System.out.println("Test format "+ sdf1.format(date1));
+                            		//System.out.println("Test format "+ sdf1.format(date1));
                             		
                             		
                             		%>
@@ -419,13 +419,13 @@
 	                              		}else{
 	                              			String message = "";
 	                              			
-	                              			System.out.println("masuk else");
-	                              			System.out.println(late[2]);
+	                              			//System.out.println("masuk else");
+	                              			//System.out.println(late[2]);
 	                              			List<String[]> latestMessages = SQLData.getLatestMessage(late[2]);
 	                              			String[]mess = latestMessages.get(0);
-	                              			System.out.println(Arrays.asList(mess));
+	                              			//System.out.println(Arrays.asList(mess));
 	                              			if(mess[3].equalsIgnoreCase("text")){
-	                              				System.out.println("masuk if");
+	                              				//System.out.println("masuk if");
 	                              				out.print(latestMessages.get(0)[4]);
 	                              			}else if(mess[3].equalsIgnoreCase("document")){
 	                              				out.print("<i class='fas fa-file'></i>");

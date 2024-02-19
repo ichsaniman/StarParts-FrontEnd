@@ -35,14 +35,17 @@ public class DownloadImage extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		String imageFileName = request.getParameter("path");
-		String imageFileName = request.getPathInfo().substring(1);
-		System.out.println(imageFileName);
-		String imagePath ="/opt/mediaWa/" + imageFileName;
-		 File file = new File(imagePath);
+		String imageFileName = request.getPathInfo();
+//				.substring(1);
+		System.out.println(request.getRequestURI());
+		System.out.println("aa " + imageFileName);
+//		String imagePath ="/opt/Estatment/generate/generated/" + imageFileName;
+		 File file = new File(imageFileName);
 		 OutputStream out = response.getOutputStream();
 			response.setContentType("APPLICATION/OCTET-STREAM");
 			response.setHeader("Content-Disposition","attachment; filename=\"" + file.getName() + "\"");   
 			FileInputStream fileI = new FileInputStream(file);
+			System.out.println("ini apa sih "+fileI);
 			int i;
 			while((i = fileI.read())!=-1) {
 				out.write(i);

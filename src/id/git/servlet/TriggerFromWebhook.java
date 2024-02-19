@@ -1,6 +1,9 @@
 package id.git.servlet;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,5 +44,6 @@ public class TriggerFromWebhook extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(json);
 	}
+
 
 }

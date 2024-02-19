@@ -7,14 +7,14 @@
 	try{
 		if(session.getAttribute("currentUser") !=null){
 			String current = session.getAttribute("currentUser").toString();
- 			System.out.println("cek user: "+current);
+ 			//System.out.println("cek user: "+current);
  			List<String[]> content = SQLData.getContentById("CID006");
  			String id = content.get(0)[0];
  			String text = content.get(0)[1];
  			String disp = text+" "+id+"";
  			String desc = content.get(0)[2];
  			String area = content.get(0)[8];
- 			System.out.println(id);
+ 			//System.out.println(id);
 		%>
 		<!DOCTYPE html>
 <html lang="en">
@@ -399,7 +399,7 @@
  		}
 	}catch(Exception e){
 		e.printStackTrace();
-		System.out.println(e.getMessage());
+		//System.out.println(e.getMessage());
 	}
 	
 %>

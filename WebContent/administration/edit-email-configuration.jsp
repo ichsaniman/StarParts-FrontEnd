@@ -8,7 +8,7 @@
 	try{
 		if(session.getAttribute("currentUser") !=null){
 			String current = session.getAttribute("currentUser").toString();
- 			System.out.println("cek user: "+current);
+ 			//System.out.println("cek user: "+current);
 		String contentID= request.getParameter("contentID").toString();
 		List<String[]> getContent = SQLData.getContentById(contentID);
     	
@@ -459,7 +459,7 @@
  		}
 	}catch(Exception e){
 		e.printStackTrace();
-		System.out.println(e.getMessage());
+		//System.out.println(e.getMessage());
 		
 	}
 %>

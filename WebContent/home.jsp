@@ -11,6 +11,7 @@
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Set"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.io.PrintStream"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
  <%
@@ -20,11 +21,11 @@
  			int countCustomer = SQLData.customerCount();
  			String current = session.getAttribute("currentUser").toString();
  			int role = SQLData.getUserRole(current); 
- 			System.out.println("cek user: "+current);
+ 			//System.out.println("cek user: "+current);
  			HashMap<String, Double> set = SQLData.selectChart();
  			if(set.size() == 0) set.put(Function.getPeriod(), 0.0);
  			Double obs = Collections.max(set.values());
- 			System.out.println(obs);
+ 			//System.out.println(obs);
  			String json = ChatJson.get();
  			DecimalFormat df1 = new DecimalFormat("#.##");
  			HashMap<String, Double> fix = new HashMap<String, Double>();
@@ -34,7 +35,7 @@
  			for (Entry<String, Double> pair : reverseSortedMap.entrySet()) {
  				obtained = pair.getValue();
  				total3 = obtained * 100 / obs;
- 				System.out.println(obtained);
+ 				//System.out.println(obtained);
  			    fix.put(pair.getKey(), obtained) ;   
  			}
  			Map<String, Double> reverseSortedMap1 = new TreeMap<String, Double>(fix);
@@ -504,6 +505,6 @@
  		}
  	}catch(Exception e ){
  		e.printStackTrace();
- 		System.out.println(e.getMessage());
+ 		//System.out.println(e.getMessage());
  	}
 %>

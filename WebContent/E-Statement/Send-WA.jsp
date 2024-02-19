@@ -5,7 +5,7 @@
 <%try{
 	if(session.getAttribute("currentUser") !=null){
 		String current = session.getAttribute("currentUser").toString();
-		System.out.println("cek user: "+current);
+		//System.out.println("cek user: "+current);
 	HashMap<String,String>parameter = SQLData.getParameter();
 %>
 <!DOCTYPE html>
@@ -625,7 +625,7 @@
 } 
 }catch(Exception e){
 	e.printStackTrace();
-	System.out.println(e.getMessage());
+	//System.out.println(e.getMessage());
 }
 
 %>

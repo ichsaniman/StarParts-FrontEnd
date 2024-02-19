@@ -5,7 +5,7 @@
 <%try{
 	if(session.getAttribute("currentUser") !=null){
 		String current = session.getAttribute("currentUser").toString();
-		System.out.println("cek user: "+current);
+		//System.out.println("cek user: "+current);
 	%>
 	<!DOCTYPE html>
 <html lang="en">
@@ -290,7 +290,7 @@
                                                     		out.print("<td class='tg-0lax'>"+customer.get(i)[1]+"</td>");
                                                     		String status = customer.get(i)[3];
                                                     		if(status.equals("N")){
-                                                    			System.out.println(status);
+                                                    			//System.out.println(status);
                                                     			out.print("<td class='tg-0lax'>Please re Genereate</td>");                                                    			
                                                     			out.print("<td class='tg-0lax'><button type='submit' name='regenerate' value='"+customer.get(i)[0]+"' class='btn btn-warning'><i class='far fa-file-archive fa-fw'></i>Re Generate</button></td>");
                                                     		}
@@ -376,7 +376,7 @@
 	} 
 }catch(Exception e){
 	e.printStackTrace();
-	System.out.println(e.getMessage());
+	//System.out.println(e.getMessage());
 }
 
 %>

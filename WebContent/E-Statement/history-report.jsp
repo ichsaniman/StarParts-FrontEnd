@@ -5,7 +5,7 @@
 <%try{
 	if(session.getAttribute("currentUser") !=null){
 		String current = session.getAttribute("currentUser").toString();
-		System.out.println("cek user: "+current);
+		//System.out.println("cek user: "+current);
 	%>
 	<!DOCTYPE html>
 <html lang="en">
@@ -241,7 +241,7 @@
                                                     		String status = customer.get(i)[3];
                                                     		String message = customer.get(i)[5];
                                                     		if(status.equals("R") && !message.equals("Ready to Send")){
-                                                    			System.out.println(status);
+                                                    			//System.out.println(status);
                                                     			out.print("<td class='tg-0lax'>Please Re-Send</td>");                                                    			
                                                     			out.print("<td class='tg-0lax'><button type='submit' name='reSend' value='"+customer.get(i)[0]+"' class='btn btn-warning'><i class='fas fa-paper-plane fa-fw'></i>Re Send</button></td>");
                                                     		}
@@ -321,7 +321,7 @@
 		response.sendRedirect("/StarParts/");
 	} 
 }catch(Exception e){
-	System.out.println(e.getMessage());
+	//System.out.println(e.getMessage());
 	e.printStackTrace();
 }
 %>

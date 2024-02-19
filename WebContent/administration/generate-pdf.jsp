@@ -13,11 +13,11 @@
     	try{
     		if(session.getAttribute("currentUser") !=null){
     			String current = session.getAttribute("currentUser").toString();
-     			System.out.println("cek user: "+current);
+     			//System.out.println("cek user: "+current);
     		HashMap<String,String>parameter = SQLData.getParameter();
     		boolean Gen = CheckService.CheckGen();
     		String period = Function.getPeriod();
-    		System.out.println(period);
+    		//System.out.println(period);
     		String pattern = "###,###.###";
     		DecimalFormat df = new DecimalFormat(pattern);
     		SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -26,8 +26,8 @@
     		String usertmp = df.format(get);
     		String user = usertmp.replace(",", ".");
     		user = user+" PDF";
-    		System.out.println(get);
-    		System.out.println(user);
+    		//System.out.println(get);
+    		//System.out.println(user);
     		String status = "";
     		String cbx = "";
     		String month = Function.getMonth();
@@ -613,6 +613,6 @@
      		}
 }catch(Exception e){
     		e.printStackTrace();
-    		System.out.println(e.getMessage());
+    		//System.out.println(e.getMessage());
     	}
     	%>

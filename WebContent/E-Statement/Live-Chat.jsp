@@ -4,6 +4,7 @@
 <%@page import="java.time.Instant"%>
 <%@page import="id.git.db.SQLData"%>
 <%@page import="java.util.List"%>
+<%@page import="java.io.PrintStream"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%
@@ -433,6 +434,6 @@
  		}
  	}catch(Exception e ){
  		e.printStackTrace();
- 		System.out.println(e.getMessage());
+ 		//System.out.println(e.getMessage());
  	}
 %>

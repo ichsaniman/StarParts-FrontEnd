@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Calendar;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,14 +53,13 @@ public class Chat extends HttpServlet {
 			long unix = Long.parseLong(getChat.get(i)[3]);
 			Instant instant = Instant.ofEpochSecond(unix);
 			Date date1 = Date.from(instant);
+			
 //			if(from.equalsIgnoreCase("admin")) {
 //				rcdm.setFrom(from);
 //				rcdm.setDate(sdf1.format(date1));
 //				rcdm.setMessages(getChat.get(i)[4]);
 //				bodyMessages.add(rcdm);
-//			}
-//		else 
-//		{
+//			} else {
 				List<String[]> message = SQLData.getLatestMessage(getChat.get(i)[2]);
 				String type = message.get(0)[3];
 				System.out.println(message.get(0)[4]);

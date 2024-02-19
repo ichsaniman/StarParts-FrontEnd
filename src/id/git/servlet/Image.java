@@ -34,13 +34,13 @@ public class Image extends HttpServlet {
         response.setContentType("image/" + requestedImageType);
 
         // Get the image file path based on the requested URL
-        String imageFileName = request.getPathInfo().substring(1); // Remove leading slash
+        String imageFileName = request.getPathInfo(); // Remove leading slash
         System.out.println(imageFileName);
-        String imagePath = "/opt/mediaWa/" + imageFileName;
+//        String imagePath = "/opt/mediaWa/" + imageFileName;
         		
 
         // Read the image file
-        try (FileInputStream fis = new FileInputStream(new File(imagePath));
+        try (FileInputStream fis = new FileInputStream(new File(imageFileName));
              OutputStream os = response.getOutputStream()) {
 
             // Write the image to the response output stream

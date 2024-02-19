@@ -15,7 +15,7 @@
 <%
 	try{
 		String id = request.getParameter("id");
-		System.out.println("Dari detail "+id);
+		//System.out.println("Dari detail "+id);
 		List<String[]> lGetOrder = SQLData.getOrder(id);
 		String[] getOrder = lGetOrder.get(0);
 		String outletId = getOrder[4];
@@ -399,9 +399,9 @@
                         <tbody>
                         	<%
                         		for (int it = 0; it < getItems.size(); it++){
-                        			System.out.println("masuk get item");
+                        			//System.out.println("masuk get item");
                         			String[]items = getItems.get(it);
-                        			System.out.println(Arrays.asList(items));
+                        			//System.out.println(Arrays.asList(items));
                         			ResponseItem ri = GetApiDataSpring.getItem(items[0]);
                         			Double itemPcs = Double.valueOf(items[2]);
                         			List<ResponseItemData> rid = ri.getData();

@@ -96,6 +96,84 @@ public class SQLData {
 		return result;
 	}
 	
+	public static boolean insertChat(String id, String to, String messages, long unix) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DBEngine.getConnection();
+
+			String sql = "INSERT INTO \"SP_MESSAGES\" (\"MESSAGE_ID\", \"MESSAGE_FROM\", \"MESSAGE_TO\", \"MESSAGE_TIMESTAMP\", \"MESSAGE_BODY\", \"MESSAGE_TYPE\") "
+					+ "VALUES('"+id+"', 'Admin', '"+to+"', "+unix+", '"+messages+"', 'text')";
+			// log.info("sql=" + sql);
+			System.out.println("ini sql chat "+sql);
+			ps = conn.prepareStatement(sql);
+			int i = ps.executeUpdate();
+			if (i > 0) {
+				result = true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public static boolean deleteMessageLog() {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DBEngine.getConnection();
+
+			String sql = "DELETE FROM \"SP_MESSAGE_LOG\""
+					+ "WHERE NOT EXISTS ("
+					+ "SELECT 1 FROM \"SP_MESSAGES\""
+					+ "WHERE \"SP_MESSAGE_LOG\".\"MESSAGE_LOG_TIMESTAMP\" = \"SP_MESSAGES\".\"MESSAGE_TIMESTAMP\");";
+			// log.info("sql=" + sql);
+			System.out.println("ini sql chat "+sql);
+			ps = conn.prepareStatement(sql);
+			int i = ps.executeUpdate();
+			if (i > 0) {
+				result = true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
 	public static List<String[]> getInvoiceInformation(int logId) {
         List<String[]> invoiceInfoList = new ArrayList<>();
         Connection conn = null;
@@ -146,42 +224,42 @@ public class SQLData {
         return invoiceInfoList;
     }
 	
-	public static boolean insertLogDocument(String id, String to, String path, long unix, String filename, String caption) {
-		boolean result = false;
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			conn = DBEngine.getConnection();
-
-			String sql = "INSERT INTO \"SP_MESSAGES\" (\"MESSAGE_ID\", \"MESSAGE_FROM\", \"MESSAGE_TO\", \"MESSAGE_PATH\", \"MESSAGE_TIMESTAMP\", \"MESSAGE_FILENAME\", \"MESSAGE_CAPTION\", \"MESSAGE_TYPE\") "
-					+ "VALUES('"+id+"', 'Admin', '"+to+"', '"+path+"', "+unix+", '"+filename+"', '"+caption+"', 'document')";
-			System.out.println(sql);
-			ps = conn.prepareStatement(sql);
-			int i = ps.executeUpdate();
-			if (i > 0) {
-				result = true;
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (conn != null) {
-					conn.close();
-				}
-				if (ps != null) {
-					ps.close();
-				}
-				if (rs != null) {
-					rs.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
-	}
+//	public static boolean insertLogDocument(String id, String to, String path, long unix, String filename, String caption) {
+//		boolean result = false;
+//		Connection conn = null;
+//		PreparedStatement ps = null;
+//		ResultSet rs = null;
+//		try {
+//			conn = DBEngine.getConnection();
+//
+//			String sql = "INSERT INTO \"SP_MESSAGES\" (\"MESSAGE_ID\", \"MESSAGE_FROM\", \"MESSAGE_TO\", \"MESSAGE_PATH\", \"MESSAGE_TIMESTAMP\", \"MESSAGE_FILENAME\", \"MESSAGE_CAPTION\", \"MESSAGE_TYPE\") "
+//					+ "VALUES('"+id+"', 'Admin', '"+to+"', '"+path+"', "+unix+", '"+filename+"', '"+caption+"', 'document')";
+//			System.out.println(sql);
+//			ps = conn.prepareStatement(sql);
+//			int i = ps.executeUpdate();
+//			if (i > 0) {
+//				result = true;
+//			}
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				if (conn != null) {
+//					conn.close();
+//				}
+//				if (ps != null) {
+//					ps.close();
+//				}
+//				if (rs != null) {
+//					rs.close();
+//				}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return result;
+//	}
 	
 	public static WaModel getWaParam() {
 		WaModel wa = new WaModel();

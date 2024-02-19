@@ -7,7 +7,7 @@
 try{
 	if(session.getAttribute("currentUser") !=null){
 		String current = session.getAttribute("currentUser").toString();
-		System.out.println("cek user: "+current);
+		//System.out.println("cek user: "+current);
 		List<String[]> PDF = SQLData.getContent("PDF");
 	%>
 	<!DOCTYPE html>
@@ -343,6 +343,6 @@ try{
 		}
 }catch(Exception e){
 	e.printStackTrace();
-	System.out.println(e.getMessage());
+	//System.out.println(e.getMessage());
 }
 %>

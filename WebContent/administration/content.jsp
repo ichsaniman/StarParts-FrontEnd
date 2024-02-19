@@ -1,10 +1,11 @@
+<%@page import="java.io.PrintStream"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%
 	try{
 		if(session.getAttribute("currentUser") !=null){
 			String current = session.getAttribute("currentUser").toString();
- 			System.out.println("cek user: "+current);
+ 			//System.out.println("cek user: "+current);
 		%>
 		<!DOCTYPE html>
 <html lang="en">
@@ -324,6 +325,6 @@
  		}
 	}catch(Exception e){
 		e.printStackTrace();
-		System.out.println(e.getMessage());
+		//System.out.println(e.getMessage());
 	}
 %>
