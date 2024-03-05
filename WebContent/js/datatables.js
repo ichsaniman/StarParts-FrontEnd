@@ -79,3 +79,9 @@ $(document).ready(function () {
     // searching: false,
   });
 });
+
+/*$(document).ready(function () {
+  $("#keycloakTable").DataTable({
+    
+  });
+});*/
