@@ -357,9 +357,28 @@
 		    
 		}
 		
-		async function getUserAccess() {
+		async function getRealmRoles() {
 			try {
-		      const token = await initializeKeycloak();
+				const token = await initializeKeycloak();
+				
+				const response = await fetch('http://192.168.3.170:8080/admin/realms/Development/roles', {
+			          headers: {
+			              accept: 'application/json',
+			              authorization: token
+			          }
+			      });
+			      const result = await response.json();
+			      console.log(result)
+			      return result;
+			      
+			} catch (error) {
+				console.error("Failed to initialize adapter:", error);
+			}
+		}
+		
+		async function getUserRoles() {
+			try {
+		      //const token = await initializeKeycloak();
 		      
 		      const response = await fetch('http://192.168.3.170:8080/admin/realms/Development/users/<%= userID %>/role-mappings/realm', {
 		          headers: {
@@ -369,53 +388,64 @@
 		      });
 		      const result = await response.json();
 		      console.log(result)
-		      return result;
+		      let array1 = []
+		      result.forEach((roles) => {
+				if(roles.name.includes("Access_")) {
+					let appName = roles.name.replace("Access_", "")
+					array1.push(appName)
+				}					
+			})
+			console.log(array1)
+		      return array1;
 		    } catch (error) {
 		      console.error("Failed to initialize adapter:", error);
 		    }
 		}
 		
-		async function handleEnable(id) {
+		async function handleEnable(role) {
 		      //const token = await initializeKeycloak();
 		      
-			const response = await fetch('http://192.168.3.169:8080/admin/realms/splunk/users/'+id, {
-				method: "PUT",
+			const response = await fetch('http://192.168.3.170:8080/admin/realms/Development/users/<%= userID %>/role-mappings/realm', {
+				method: "POST",
 		          headers: {
 		              accept: 'application/json',
 		              'Content-Type': 'application/json',
 		              authorization: token
 		          },
-		          body: JSON.stringify({enabled: true})
+		          body: JSON.stringify([role])
 		      });
 			window.location.reload();
 		}
 		
-		async function handleDisable(id) {
+		async function handleDisable(role) {
+			console.log(JSON.stringify(role))
 			// const token = await initializeKeycloak();
 		      
-			const response = await fetch('http://192.168.3.169:8080/admin/realms/splunk/users/'+id, {
-				method: "PUT",
+			const response = await fetch('http://192.168.3.170:8080/admin/realms/Development/users/<%= userID %>/role-mappings/realm', {
+				method: "DELETE",
 		          headers: {
 		              accept: 'application/json',
 		              'Content-Type': 'application/json',
 		              authorization: token
 		          },
-		          body: JSON.stringify({enabled: false})
+		          body: JSON.stringify([role])
 		      });
 			window.location.reload();
 		}
 		
 		async function displayUsers() {
-			const accesses = await getUserAccess();
+			const realmRoles = await getRealmRoles();
+			const userRoles = await getUserRoles();
 			userHTML = ""
-			accesses.forEach((access) => {
-				if(access.name.includes("Access_")) {
-					let appName = access.name.replace("Access_", "")
+			realmRoles.forEach((roles) => {
+				if(roles.name.includes("Access_")) {
+					let modifiedRoles = JSON.stringify(roles).replace(/"/g, '&quot;');
+					let appName = roles.name.replace("Access_", "")
 					userHTML += "<tr><td>"+appName+"</a></td>"
-					if (!access.enabled) {
-						userHTML += "<td class='btn btn-info' onclick=\"handleEnable('"+access.id+"')\"'>Enable</td></tr>"
+					if (!userRoles.includes(appName)) {
+						userHTML += "<td class='btn btn-info' onclick='handleEnable("+modifiedRoles+")'>Enable</td></tr>"
 					} else {
-						userHTML += "<td class='btn btn-danger' onclick=\"handleDisable('"+access.id+"')\"'>Disable</td></tr>"
+						userHTML += "<td class='btn btn-danger' onclick='handleDisable("+modifiedRoles+")'>Disable</td></tr>"
 					}	
 				}					
 			})
