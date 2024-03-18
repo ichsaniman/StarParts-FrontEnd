@@ -11,15 +11,22 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 
 import id.git.db.SQLData;
 import id.git.message.model.Message;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 
@@ -77,28 +84,76 @@ public class Login extends HttpServlet {
 		 		System.out.println("Failed Login");
 		 }
 		 else {
-			 
-			 boolean check = SQLData.getUserLogin(username, pass);
+			String token = null;
+	        OkHttpClient client = new OkHttpClient();
 
-		 	//System.out.println(rs.next());
-		 	
-		 	if(check == true){
-		 		session.setAttribute("currentUser",username );
-		 		System.out.println("username Login:	"+username);
-//		 		rd = request.getRequestDispatcher("home.jsp");
-		 		response.sendRedirect("Home");
-//		 		rd.forward(request, response);
-		 	}
-		 	else{
-		 		Message m = new Message("Username/password Incorrect", "error", "danger");
-		 		session.setAttribute("msgLogin",m );
-		 		rd = request.getRequestDispatcher("index.jsp");
-		 		response.sendRedirect("index.jsp");
-		 		System.out.println("Failed Login");
-		 		rd.include(request, response);
-		 	}
-		 
-//		 	rd.forward(request, response);
+	        RequestBody formBody = new FormBody.Builder()
+	                .add("client_id", "testing")
+	                .add("grant_type", "password")
+	                .add("username", username)
+	                .add("password", pass)
+	                .add("scope", "openid")
+	                .add("client_secret", "TeBs5pF0HKOMDSHXQuP11ETlQASchLfL")
+	                .build();
+
+	        Request request1 = new Request.Builder()
+	                .url("http://192.168.3.169:8080/realms/splunk/protocol/openid-connect/token")
+	                .post(formBody)
+	                .build();
+
+	        try (Response response1 = client.newCall(request1).execute()) {
+	            if (response1.isSuccessful()) {
+	                String responseBody = response1.body().string();
+	                JSONObject jsonResponse = new JSONObject(responseBody);
+
+	                // Extract the value of the key
+	                token = jsonResponse.getString("access_token");
+	                Cookie cookie = new Cookie("token", token);
+	                // Set the cookie's lifespan (in seconds)
+	                cookie.setMaxAge(3600); // 1 hour
+
+	                // Add the cookie to the response
+	                response.addCookie(cookie);
+			 		session.setAttribute("currentUser",username );
+			 		System.out.println("username Login:	"+username);
+			 		response.sendRedirect("Home");
+	            } else {
+//	                System.out.println("Request failed. HTTP code: " + response1.code());
+//	                System.out.println(response1.message());
+//	                token = "error";
+	            	System.out.println("yang ini bukan");
+	            	Message m = new Message(response1.message(), "error", "danger");
+			 		session.setAttribute("msgLogin",m );
+			 		rd = request.getRequestDispatcher("index.jsp");
+			 		response.sendRedirect("index.jsp");
+			 		System.out.println("Failed Login");
+			 		rd.include(request, response);
+	            }
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+			 
+//			 boolean check = SQLData.getUserLogin(username, pass);
+//
+//		 	//System.out.println(rs.next());
+//		 	
+//		 	if(check == true){
+//		 		session.setAttribute("currentUser",username );
+//		 		System.out.println("username Login:	"+username);
+////		 		rd = request.getRequestDispatcher("home.jsp");
+//		 		response.sendRedirect("Home");
+////		 		rd.forward(request, response);
+//		 	}
+//		 	else{
+//		 		Message m = new Message("Username/password Incorrect", "error", "danger");
+//		 		session.setAttribute("msgLogin",m );
+//		 		rd = request.getRequestDispatcher("index.jsp");
+//		 		response.sendRedirect("index.jsp");
+//		 		System.out.println("Failed Login");
+//		 		rd.include(request, response);
+//		 	}
+//		 
+////		 	rd.forward(request, response);
 		 	
 		 
 	 }

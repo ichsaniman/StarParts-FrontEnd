@@ -12,16 +12,37 @@
 <%@page import="java.util.Set"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.io.PrintStream"%>
+<%@ page import="java.util.Optional" %>
+<%@ page import="javax.servlet.http.Cookie" %>
+<%@ page import="java.util.Arrays" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
  <%
  	try{
 
  		if(session.getAttribute("currentUser") !=null){
+ 			Cookie[] cookies = request.getCookies();
+ 			// Find the cookie with the name "token"
+ 		    Optional<Cookie> usernameCookie = null;
+ 		    for (Cookie cookie : cookies) {
+ 		        if ("token".equals(cookie.getName())) {
+ 		            usernameCookie = Optional.of(cookie);
+ 		            break;
+ 		        }
+ 		    }
+ 		    
+ 			// Retrieve and display the cookie value
+ 		    String token = "Token not found";
+ 		    if (usernameCookie != null && usernameCookie.isPresent()) {
+ 		        token = usernameCookie.get().getValue();
+ 		    }
+ 		    
+ 		    // System.out.println("cek token: " + token);
+ 	        
  			int countCustomer = SQLData.customerCount();
  			String current = session.getAttribute("currentUser").toString();
  			int role = SQLData.getUserRole(current); 
- 			//System.out.println("cek user: "+current);
+ 			// System.out.println("cek user: "+current);
  			HashMap<String, Double> set = SQLData.selectChart();
  			if(set.size() == 0) set.put(Function.getPeriod(), 0.0);
  			Double obs = Collections.max(set.values());
@@ -88,6 +109,8 @@
     />
     <!-- MDB -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mdb.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/keycloak-js@21.1.2/dist/keycloak.js"></script>
+    <script src="js/keycloak.js"></script>
   </head>
   <script type="text/javascript">
   
@@ -284,6 +307,9 @@
                   >
                 </nav>
               </div>
+              <a class="nav-link" href="${pageContext.request.contextPath}/administration/keycloak.jsp" style="color: #ffffff">
+                Keycloak
+              </a>
               <%
               	}
              	%>
@@ -496,6 +522,22 @@
         myChart1.update();
       }
         </script>
+	<script>
+	  async function initializeKeycloak() {
+	    try {
+	      let authenticated = await keycloak.init({
+	        onLoad: "login-required",
+	      });
+	        console.log(
+	          `User is ${authenticated ? "authenticated" : "not authenticated"}`
+	        );
+	    } catch (error) {
+	      console.error("Failed to initialize adapter:", error);
+	    }
+		}
+	
+		initializeKeycloak();
+	</script>
   </body>
 </html>
 <%

@@ -1,7 +1,10 @@
 <%@page import="java.io.PrintStream"%>
 <%@page import="id.git.message.model.Message"%>
+<%@ page import="java.util.Optional" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
+
     
 <!DOCTYPE html>
 <html lang="en">
@@ -27,6 +30,8 @@
     />
     <!-- MDB -->
     <link rel="stylesheet" href="css/mdb.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/keycloak-js@21.1.2/dist/keycloak.js"></script>
+  	<script src="js/keycloak.js"></script>
   </head>
 
   <body>
@@ -122,6 +127,25 @@
       </div>
     </section>
     <!-- End your project here-->
+    <script>
+	  async function initializeKeycloak() {
+	    try {
+	      let authenticated = await keycloak.init({
+	        onLoad: "login-required",
+	      });
+	        console.log(
+	          `User is ${authenticated ? "authenticated" : "not authenticated"}`
+	        );
+	        if(authenticated) {
+	            window.location.href = "/StarParts/Home"
+	          }
+	    } catch (error) {
+	      console.error("Failed to initialize adapter:", error);
+	    }
+	}
+	
+	initializeKeycloak();
+	</script>
 
     <!-- MDB -->
     <script type="text/javascript" src="js/mdb.min.js"></script>
